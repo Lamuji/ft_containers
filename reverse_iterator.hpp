@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:42:04 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/09 17:22:54 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/09 19:15:56 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,97 @@ public:
 		return *(*this + __n);
 	}
 };
-	
+
+	template<typename _Iterator>
+	inline bool operator==(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return __x.base() == __y.base();
+			}
+
+	template<typename _Iterator>
+	inline bool operator<(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return __y.base() < __x.base(); 
+			}
+
+	template<typename _Iterator>
+	inline bool operator!=(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return !(__x == __y);
+			}
+
+	template<typename _Iterator>
+		inline bool operator>(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return __y < __x;
+			}
+
+	template<typename _Iterator>
+	inline bool operator<=(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return !(__y < __x);
+			}
+
+	template<typename _Iterator>
+	inline bool operator>=(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return !(__x < __y); 
+			}
+
+	template<typename _Iterator>
+	inline typename reverse_iterator<_Iterator>::difference_type operator-(const reverse_iterator<_Iterator>& __x,
+			const reverse_iterator<_Iterator>& __y){
+				return __y.base() - __x.base();
+			}
+
+	template<typename _Iterator>
+	inline reverse_iterator<_Iterator> operator+(typename reverse_iterator<_Iterator>::difference_type __n,
+			const reverse_iterator<_Iterator>& __x){
+				return reverse_iterator<_Iterator>(__x.base() - __n);
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+	inline bool operator==(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return __x.base() == __y.base();
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+	inline bool operator<(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return __y.base() < __x.base();
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+		inline bool operator!=(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return !(__x == __y); 
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+	inline bool operator>(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return __y < __x;
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+		inline bool operator<=(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return !(__y < __x);
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+	inline bool operator>=(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y){
+				return !(__x < __y);
+			}
+
+	template<typename _IteratorL, typename _IteratorR>
+	inline typename reverse_iterator<_IteratorL>::difference_type operator-(const reverse_iterator<_IteratorL>& __x,
+			const reverse_iterator<_IteratorR>& __y) {
+			return __y.base() - __x.base(); 
+	}
+
 }
 
 #endif 
