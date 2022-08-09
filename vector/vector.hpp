@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/09 15:30:34 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/09 16:12:29 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ namespace ft
             typedef _GLIBCXX_STD_C::vector<_Tp, _Allocator> _Base;        
             typedef typename _Base::iterator _Base_iterator;
             typedef typename _Base::const_iterator _Base_const_iterator;
-        public:
+		public:
             typedef _GLIBCXX_STD_C::vector<_Tp, _Allocator> _Base;
         
             typedef typename _Base::iterator _Base_iterator;
             typedef typename _Base::const_iterator _Base_const_iterator;
             typedef typename _Base::reference             reference;
             typedef typename _Base::const_reference       const_reference;
-                
+
             typedef typename _Base::size_type             size_type;
             typedef typename _Base::difference_type       difference_type;
-        
+
             typedef _Tp                   value_type;
             typedef _Allocator                allocator_type;
             typedef typename _Base::pointer               pointer;
