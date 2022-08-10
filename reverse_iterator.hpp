@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:42:04 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/09 19:15:56 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/10 08:36:17 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define REVERSE_ITERATOR
 
 #include <iterator>
+#include "iterator_traits.hpp"
 
 namespace ft{
 template<typename _Iterator>
