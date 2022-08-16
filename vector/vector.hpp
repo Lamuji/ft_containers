@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/16 16:19:33 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/16 20:26:49 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ namespace ft
             
             /* CONSTRUCTORS */
             
-            vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc) {};
+            vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc) , _size(0) {};
             
-            vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc)
+            vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _alloc(alloc)
             {
                 _data = _alloc.allocate(n);
                 for(size_type i = 0; i < n; i++)
@@ -65,12 +65,12 @@ namespace ft
                 return *this;
             }
 
-            /* a supprimer */
+            /* à supprimer */
             value_type* data()
             {
                 return _data;
             }
-            /* a supprimer */
+            /* à supprimer */
 
             
             reference front()
@@ -81,10 +81,21 @@ namespace ft
             {
                 return *_data;
             }
-                    
+			
+			/* MEMBER FUNCTIONS */
+
+			size_type size() const { return _size;}
+			void resize (size_type n, value_type val = value_type()) { _size = n;}
+			size_type max_size() const { return size_type(-1) / sizeof(value_type);} // limite taille d'un vector
+			size_type capacity() const { return ;}
+			bool empty() const { return _size == 0 ? true : false;}
+			void reserve(size_type n) { }
+
+			
         private:
             allocator_type _alloc;
             pointer _data;
+			size_type _size;
     };
 }
 
