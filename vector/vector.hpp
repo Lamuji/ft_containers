@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/09 16:12:29 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/16 16:19:33 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <memory>
+#include "../enable_if.hpp"
+#include "../is_integral.hpp"
 
 namespace ft
 {
@@ -18,43 +20,71 @@ namespace ft
 
     class vector
     {
-            typedef _GLIBCXX_STD_C::vector<_Tp, _Allocator> _Base;        
-            typedef typename _Base::iterator _Base_iterator;
-            typedef typename _Base::const_iterator _Base_const_iterator;
-		public:
-            typedef _GLIBCXX_STD_C::vector<_Tp, _Allocator> _Base;
-        
-            typedef typename _Base::iterator _Base_iterator;
-            typedef typename _Base::const_iterator _Base_const_iterator;
-            typedef typename _Base::reference             reference;
-            typedef typename _Base::const_reference       const_reference;
+        public :
+            typedef T value_type;
+            typedef Allocator allocator_type;
+            typedef typename allocator_type::reference reference;
+            typedef typename allocator_type::const_reference const_reference;
+            typedef typename allocator_type::pointer pointer;
+            typedef typename allocator_type::const_pointer const_pointer;
+            typedef typename allocator_type::size_type size_type;
+            
+            /* CONSTRUCTORS */
+            
+            vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc) {};
+            
+            vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc)
+            {
+                _data = _alloc.allocate(n);
+                for(size_type i = 0; i < n; i++)
+                    _alloc.construct(_data + i, val);
+            }
+            
+            template <class InputIterator>
+            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
+            typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false) : _alloc(alloc)
+            {
+                size_t n = std::distance(first, last);
+                _data = _alloc.allocate(n);
+                for(size_type i = 0; i < n; i++)
+                    _alloc.construct(_data + i, *first++);
+            }
 
-            typedef typename _Base::size_type             size_type;
-            typedef typename _Base::difference_type       difference_type;
+            vector (const vector& x) 
+            {
+                _data = x._data;
+                _alloc = x._alloc;
+            }
+            
+            /* CONSTRUCTORS */
 
-            typedef _Tp                   value_type;
-            typedef _Allocator                allocator_type;
-            typedef typename _Base::pointer               pointer;
-            typedef typename _Base::const_pointer         const_pointer;
-            typedef std::reverse_iterator<iterator>       reverse_iterator;
-            typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+            vector& operator= (const vector& x)
+            {
+                _data = x._data;
+                _alloc = x._alloc;
+                return *this;
+            }
 
-            vector (const allocator_type& alloc = _Allocator()) : _Base(alloc), _M_guaranteed_capacity(0) { };
-        
-            vector (size_type n, const value_type& val = _Tp(),
-                 const allocator_type& alloc = _Allocator()) 
-                 : _Base(n, val, alloc), _M_guaranteed_capacity(n) {};
-        
-            // template <class InputIterator>
-            // vector (InputIterator first, InputIterator last,
-            //      const allocator_type& alloc = allocator_type());
-        
-            vector (const vector& x);
-        
-            ~vector();
+            /* a supprimer */
+            value_type* data()
+            {
+                return _data;
+            }
+            /* a supprimer */
+
+            
+            reference front()
+            {
+                return *_data;   
+            }
+            const_reference front() const
+            {
+                return *_data;
+            }
+                    
         private:
-            /* data */
-            size_type _M_guaranteed_capacity;
+            allocator_type _alloc;
+            pointer _data;
     };
 }
 

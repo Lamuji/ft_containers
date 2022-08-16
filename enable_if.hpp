@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enable_if.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 08:37:45 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/10 08:38:10 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/13 13:00:50 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define ENABLE_IF
 
 
+namespace ft
+{
+    template<bool B, class T = void>
+    struct enable_if {};
 
+    template<class T>
+    struct enable_if<true, T> { typedef T type; };
+}
 
 #endif 
