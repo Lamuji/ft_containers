@@ -9,16 +9,28 @@ using namespace std;
 int main() 
 {
   ft::vector<int> titi(10, 24);
- // std::vector<int> toto;
+  // std::vector<int> toto;
   titi.reserve(5);
   // titi.resize(8);
-   cout << titi.capacity() << endl;
-     int *i = titi.data();
-  for (int b = 0; b < 4; b++)
+  cout << titi.capacity() << endl;
+  try {
+  cout <<titi[0] << endl;
+  } catch(std::out_of_range())
   {
-    std::cout << *i << std::endl;
-    i++;
+    
   }
+
+
+
+
+  //int *i = titi.data();
+
+
+  // for (int b = 0; b < 4; b++)
+  // {
+  //   std::cout << *i << std::endl;
+  //   i++;
+  // }
   // cout << titi.size() << endl;
   // titi.resize(12);
   // cout << titi.capacity() << endl;
@@ -39,5 +51,5 @@ int main()
   // }
   // std::cout << toto.max_size() << std::endl;
   // std::cout << titi.max_size() << std::endl;
-  return 0;
+  //return 0;
 }

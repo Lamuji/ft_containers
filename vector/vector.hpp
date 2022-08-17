@@ -6,13 +6,14 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/17 20:12:17 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/17 20:27:08 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <memory>
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
+#include <stdexcept>
 
 namespace ft
 {
@@ -126,6 +127,16 @@ namespace ft
                 }
             }
 
+
+            /* ELEMENT ACCESS */
+
+            reference operator[] (size_type n){
+                if (n < _size)
+                    throw std::out_of_range("Element is out of range\n");
+                else
+                    return this->_data[n];
+            }
+            
             /* a supprimer */
             value_type* data()
             {
