@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/17 20:09:27 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/17 20:12:17 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ namespace ft
             {
                 return *_data;
             }
-                    
+
         private:
             allocator_type _alloc;
             pointer _data;
