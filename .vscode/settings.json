@@ -2,6 +2,7 @@
 	"files.associations": {
 		"iterator": "cpp",
 		"memory": "cpp",
+<<<<<<< HEAD
 		"string": "cpp",
 		"vector": "cpp",
 		"__hash_table": "cpp",
@@ -29,6 +30,17 @@
 		"__functional_base": "cpp",
 		"__node_handle": "cpp",
 		"__memory": "cpp",
+=======
+		"__hash_table": "cpp",
+		"__split_buffer": "cpp",
+		"array": "cpp",
+		"bitset": "cpp",
+		"initializer_list": "cpp",
+		"string": "cpp",
+		"string_view": "cpp",
+		"unordered_map": "cpp",
+		"vector": "cpp",
+>>>>>>> e735722f1ebc033692ba2e7f29d39ea7312d02d6
 		"iostream": "cpp"
 	}
 }

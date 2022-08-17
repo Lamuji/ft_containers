@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/16 20:26:49 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/17 21:06:47 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ namespace ft
             vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _alloc(alloc)
             {
                 _data = _alloc.allocate(n);
+                _size = n;
+                _capacity = n;
                 for(size_type i = 0; i < n; i++)
                     _alloc.construct(_data + i, val);
             }
@@ -45,6 +47,8 @@ namespace ft
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false) : _alloc(alloc)
             {
                 size_t n = std::distance(first, last);
+                _size = n;
+                _capacity = n;
                 _data = _alloc.allocate(n);
                 for(size_type i = 0; i < n; i++)
                     _alloc.construct(_data + i, *first++);
@@ -54,18 +58,75 @@ namespace ft
             {
                 _data = x._data;
                 _alloc = x._alloc;
+                _size = x._size;
+                _capacity = x._capacity;
             }
-            
+
+            ~vector() { _alloc.deallocate(_data, _capacity);}
+
             /* CONSTRUCTORS */
 
             vector& operator= (const vector& x)
             {
                 _data = x._data;
                 _alloc = x._alloc;
+                _size = x._size;
+                _capacity = x._capacity;
                 return *this;
             }
 
-            /* à supprimer */
+            size_type size() const {return _size;}
+
+            size_type max_size() const{  return _alloc.max_size();}
+            
+            // _alloc.destroy et _alloc.construct modifie la _size
+            // _alloc.allocate et _alloc.deallocate modifie la _capacity
+            void resize (size_type n, value_type val = value_type())
+            {
+                if (n < _size){
+                    for (size_type i = n ;i < _size;i++)
+                        _alloc.destroy(_data + i);
+                    _size = n;
+                }
+                else if (n > _size){
+                    pointer data_tmp = _alloc.allocate(n);
+                    size_type i = 0;
+                    for (; i < _size;i++)
+                        _alloc.construct(data_tmp + i, _data[i]);
+                    for (; i < n; ++i)
+                        _alloc.construct(data_tmp + i, val);
+                    _alloc.deallocate(_data, _capacity);
+                    _data = _alloc.allocate(n);
+                    for (size_type t = 0; t < n; t++)
+                        _alloc.construct(_data + t, data_tmp[t]);
+                    for (size_type t = 0; t < n; t++)
+                        _alloc.destroy(data_tmp + t);
+                    _alloc.deallocate(data_tmp, n);
+                    _capacity = n;
+                    _size = n;
+                }
+            }
+
+            size_type capacity() const { return _capacity;}
+
+            bool empty() const { return _size == 0? true : false;}
+
+            void    reserve(size_type n)
+            {
+                if (n > _capacity){
+                    pointer data_tmp = _alloc.allocate(n);
+                    size_type i = 0;
+                    for (; i < n; i++)
+                        _alloc.construct(data_tmp + i, _data[i]);
+                    _alloc.deallocate(_data, _capacity);
+                    _data = _alloc.allocate(n);
+                    _data = data_tmp;
+                    _alloc.deallocate(data_tmp, n);
+                    _capacity = n;
+                }
+            }
+
+            /* a supprimer */
             value_type* data()
             {
                 return _data;
@@ -95,7 +156,8 @@ namespace ft
         private:
             allocator_type _alloc;
             pointer _data;
-			size_type _size;
+            size_type _size;
+            size_type _capacity;
     };
 }
 
