@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/18 13:35:32 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/18 16:59:37 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
             
             /* CONSTRUCTORS */
             
-            vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc) , _size(0) {};
+            vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc) , _size(0), _capacity(0) {};
             
             vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _alloc(alloc)
             {
@@ -40,19 +40,19 @@ namespace ft
                 _size = n;
                 _capacity = n;
                 for(size_type i = 0; i < n; i++)
-                    _alloc.construct(_data + i, val);
+            	    _alloc.construct(_data + i, val);
             }
-            
-            template <class InputIterator>
-            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
-            typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false) : _alloc(alloc)
+
+        	template <class InputIterator>
+        	vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false) : _alloc(alloc)
             {
-                size_t n = std::distance(first, last);
-                _size = n;
-                _capacity = n;
-                _data = _alloc.allocate(n);
-                for(size_type i = 0; i < n; i++)
-                    _alloc.construct(_data + i, *first++);
+            	size_t n = std::distance(first, last);
+            	_size = n;
+            	_capacity = n;
+            	_data =	_alloc.allocate(n);
+            	for (size_type i = 0; i < n; i++)
+            		_alloc.construct(_data + i, *first++);
             }
 
             vector (const vector& x) 
@@ -142,13 +142,72 @@ namespace ft
 			reference back() { return _data[_size - 1];}
 			const_reference back() const { return _data[_size - 1];}
 
-
 			/* MODIFIERS */
 
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last);
+			void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
+			{
+				size_type n = std::distance(first, last);
+				if (_capacity < n){
+					_alloc.deallocate(_data, _capacity);
+					_data = _alloc.allocate(n);
+					_capacity = n;
+					_size = n;
+					for(size_t i = 0; first != last; i++)
+						_alloc.construct(_data + i, *first++);
+				}
+				else {
+					for(size_t i = 0; first != last; i++)
+						_alloc.destroy(_data + i);
+					for(size_t i = 0; first != last; i++)
+						_alloc.construct(_data + i, *first++);
+					_size = n;
+				}
+			}
 
-			void assign (size_type n, const value_type& val);
+			void assign (size_type n, const value_type& val){
+				if (n > _capacity){
+					_alloc.deallocate(_data, _capacity);
+					_data = _alloc.allocate(n);
+					for (size_type i = 0; i < n; i++)
+						_alloc.construct(_data + i, val);
+					_capacity = n;
+					_size = n;
+				}
+				else {
+				    for (size_type i = 0 ;i < _size;i++)
+                		_alloc.destroy(_data + i);
+					for (size_type i = 0; i < n; i++)
+						_alloc.construct(_data + i, val);					
+                    _size = n;
+				}
+			}
+			
+			void push_back (const value_type& val){
+				if (_size + 1 > _capacity){
+					pointer tmp = _alloc.allocate(_size + 1);
+					size_type i = 0;
+                    for (; i < _size; i++)
+                        _alloc.construct(tmp + i, _data[i]);
+                    _alloc.deallocate(_data, _capacity);
+                   	_data = _alloc.allocate(_size + 1);
+					for (size_type t = 0; t < _size ; t++)
+                        _alloc.construct(_data + t, tmp[t]);
+					_alloc.deallocate(tmp, _size + 1);
+					_alloc.construct(_data + _size, val);
+					_size += 1;
+					_capacity += 1;
+				}
+				else {
+					_alloc.construct(_data + _size, val);
+					_size += 1;
+				}
+			}
+			
+			void pop_back() {
+				_size -= 1;
+				_alloc.destroy(_data + _size - 1);
+			}
 
         private:
             allocator_type _alloc;

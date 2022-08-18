@@ -8,15 +8,34 @@ using namespace std;
 
 int main() 
 {
-	ft::vector<int> titi(5);
-	titi[0] = 1;
-	titi[1] = 3;
-	titi[2] = 5;
-	titi[3] = 42;
-	titi[4] = 11;
+	ft::vector<int> titi;
+	std::vector<int> toto(10);
+	toto[0] = 11;
+	toto[1] = 14;
+	toto[2] = 16;
+	toto[3] = 111;
+	toto[4] = 21;
+	toto[5] = 69;
+	toto[6] = 15;
+	toto[7] = 14;
+	toto[8] = 10;
+	toto[9] = 22;
 
-cout << titi.back() << endl;
+	titi.assign(toto.begin(), toto.end());
+ 	titi.push_back(32);
+	//titi.pop_back();
+	for (size_t i = 0 ; i < titi.size(); i++){
+		cout << titi[i] << endl;
+	}
 
+// 	// titi.push_back(50);
+// 	// titi.assign(6,30);
+
+// cout << titi[10] << endl;
+// cout << titi.size() << endl;
+// titi.pop_back();
+// cout << titi.size() << endl;
+// cout << titi[10] << endl;
 
 
   //int *i = titi.data();
