@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/18 16:59:37 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/18 19:19:44 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
 #include <stdexcept>
+#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -29,6 +30,7 @@ namespace ft
             typedef typename allocator_type::pointer pointer;
             typedef typename allocator_type::const_pointer const_pointer;
             typedef typename allocator_type::size_type size_type;
+
             
             /* CONSTRUCTORS */
             
@@ -182,7 +184,7 @@ namespace ft
                     _size = n;
 				}
 			}
-			
+
 			void push_back (const value_type& val){
 				if (_size + 1 > _capacity){
 					pointer tmp = _alloc.allocate(_size + 1);
@@ -203,17 +205,30 @@ namespace ft
 					_size += 1;
 				}
 			}
-			
+
 			void pop_back() {
 				_size -= 1;
 				_alloc.destroy(_data + _size - 1);
 			}
+
+		iterator insert (iterator position, const value_type& val) {} // single element
+
+   		void insert (iterator position, size_type n, const value_type& val); // fill
+
+		template <class InputIterator>
+   		void insert (iterator position, InputIterator first, InputIterator last); //  range
+
+		iterator erase (iterator position){
+			pointer tmp = _alloc.allocate(_capacity);
+			
+		}
+		iterator erase (iterator first, iterator last);
 
         private:
             allocator_type _alloc;
             pointer _data;
             size_type _size;
             size_type _capacity;
+			ft::iterator_traits it;
     };
 }
-
