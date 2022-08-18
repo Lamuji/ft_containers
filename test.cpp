@@ -8,17 +8,25 @@ using namespace std;
 
 int main() 
 {
-  ft::vector<int> titi(10, 24);
- // std::vector<int> toto;
-  titi.reserve(5);
-  // titi.resize(8);
-   cout << titi.capacity() << endl;
-     int *i = titi.data();
-  for (int b = 0; b < 4; b++)
-  {
-    std::cout << *i << std::endl;
-    i++;
-  }
+	ft::vector<int> titi(5);
+	titi[0] = 1;
+	titi[1] = 3;
+	titi[2] = 5;
+	titi[3] = 42;
+	titi[4] = 11;
+
+cout << titi.back() << endl;
+
+
+
+  //int *i = titi.data();
+
+
+  // for (int b = 0; b < 4; b++)
+  // {
+  //   std::cout << *i << std::endl;
+  //   i++;
+  // }
   // cout << titi.size() << endl;
   // titi.resize(12);
   // cout << titi.capacity() << endl;
@@ -39,5 +47,5 @@ int main()
   // }
   // std::cout << toto.max_size() << std::endl;
   // std::cout << titi.max_size() << std::endl;
-  return 0;
+  //return 0;
 }

@@ -6,13 +6,14 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/17 21:06:47 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/18 13:35:32 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <memory>
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
+#include <stdexcept>
 
 namespace ft
 {
@@ -126,33 +127,29 @@ namespace ft
                 }
             }
 
-            /* a supprimer */
-            value_type* data()
-            {
-                return _data;
-            }
-            /* à supprimer */
 
+            /* ELEMENT ACCESS */
+
+            reference operator[] (size_type n){
+                if (n > _size)
+                    throw std::out_of_range("Element is out of range\n");
+                else
+                    return this->_data[n];
+            }
             
-            reference front()
-            {
-                return *_data;   
-            }
-            const_reference front() const
-            {
-                return *_data;
-            }
-			
-			/* MEMBER FUNCTIONS */
+            reference front() { return *_data; }
+            const_reference front() const { return *_data; }
+			reference back() { return _data[_size - 1];}
+			const_reference back() const { return _data[_size - 1];}
 
-			size_type size() const { return _size;}
-			void resize (size_type n, value_type val = value_type()) { _size = n;}
-			size_type max_size() const { return size_type(-1) / sizeof(value_type);} // limite taille d'un vector
-			size_type capacity() const { return ;}
-			bool empty() const { return _size == 0 ? true : false;}
-			void reserve(size_type n) { }
 
-			
+			/* MODIFIERS */
+
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last);
+
+			void assign (size_type n, const value_type& val);
+
         private:
             allocator_type _alloc;
             pointer _data;
