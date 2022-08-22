@@ -5,61 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/02 18:09:31 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/10 12:53:17 by rfkaier          ###   ########.fr       */
+/*   Created: 2022/08/22 20:42:53 by rfkaier           #+#    #+#             */
+/*   Updated: 2022/08/22 21:47:01 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_TRAITS
-# define ITERATOR_TRAITS
+#ifndef ITERATOR_TRAITS_HPP
+#define ITERATOR_TRAITS_HPP
 
-#include <iterator>
 
-namespace ft
-{
+#include <cstddef> // ptrdiff_t
 
-	template<typename _Iterator>
+
+namespace ft {
+	// Base iterator struct
+	template <class Category, class T, class Distance = ptrdiff_t,
+		class Pointer = T*, class Reference = T&> 
+	struct iterator 
+	{
+		typedef T         value_type;
+		typedef Distance  difference_type;
+		typedef Pointer   pointer;
+		typedef Reference reference;
+		typedef Category  iterator_category;
+	};
+	
+	// Empty class to identify the category/tag of an iterator 
+	// struct input_iterator_tag {};
+	// struct output_iterator_tag {};
+	// struct forward_iterator_tag : public input_iterator_tag {};
+	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
+	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+
+	// typedef std tag, using personnal/ft tag who are juste empty struct (like above),
+	// don't allow to use std iterator in function like ditance, advance...
+	// This permit to use range function like: constructor, insert.. with stl iterator.
+	typedef struct std::input_iterator_tag input_iterator_tag;
+	typedef struct std::output_iterator_tag output_iterator_tag;
+	typedef struct std::forward_iterator_tag forward_iterator_tag;
+	typedef struct std::bidirectional_iterator_tag bidirectional_iterator_tag;
+	typedef struct std::random_access_iterator_tag random_access_iterator_tag;
+
+  	// Generic iterator traits definition
+	template <class iterator>
 	struct iterator_traits
 	{
-		typedef typename _Iterator::iterator_category iterator_category;
-		typedef typename _Iterator::value_type        value_type;
-		typedef typename _Iterator::difference_type   difference_type;
-		typedef typename _Iterator::pointer           pointer;
-		typedef typename _Iterator::reference         reference;
+		typedef typename iterator::difference_type		difference_type;
+		typedef typename iterator::value_type 			value_type;
+		typedef typename iterator::pointer 				pointer;
+		typedef typename iterator::reference 			reference;
+		typedef typename iterator::iterator_category 	iterator_category;
 	};
 
-
-	/// Partial specialization for pointer types.
-	template<typename _Tp>
-	struct iterator_traits<_Tp*>
+	// T* specialization (Partial specialization for pointer types.)
+	// This specialization lets you use a pointer as a random access iterator.
+	template <class T>
+	struct iterator_traits<T *>
 	{
-		typedef random_access_iterator_tag iterator_category;
-		typedef _Tp                         value_type;
-		typedef ptrdiff_t                   difference_type;
-		typedef _Tp*                        pointer;
-		typedef _Tp&                        reference;
+		typedef ptrdiff_t 									difference_type;
+		typedef T 											value_type;
+		typedef T*											pointer;
+		typedef T&											reference;
+		typedef typename ft::random_access_iterator_tag 	iterator_category;
 	};
 
-	/// Partial specialization for const pointer types.
-	template<typename _Tp>
-	struct iterator_traits<const _Tp*>
+	// const T* specialization (Partial specialization for const pointer types.)
+	// This specialization lets you use a pointer as a random access iterator.
+	template <class T>
+	struct iterator_traits<const T *>
 	{
-		typedef random_access_iterator_tag iterator_category;
-		typedef _Tp                         value_type;
-		typedef ptrdiff_t                   difference_type;
-		typedef const _Tp*                  pointer;
-		typedef const _Tp&                  reference;
-		};
-
-	/**
-	 *  This function is not a part of the C++ standard but is syntactic
-	 *  sugar for internal library use only.
-	 */
-	template<typename _Iter>
-	inline typename iterator_traits<_Iter>::iterator_category
-	__iterator_category(const _Iter&)
-	{ return typename iterator_traits<_Iter>::iterator_category(); }
-
+		typedef ptrdiff_t 									difference_type;
+		typedef T 											value_type;
+		typedef const T*									pointer;
+		typedef const T&									reference;
+		typedef typename ft::random_access_iterator_tag 	iterator_category;
+	};
 }
-
 #endif

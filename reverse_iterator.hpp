@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:42:04 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/10 08:36:17 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/22 16:31:09 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,28 @@
 # define REVERSE_ITERATOR
 
 #include <iterator>
-#include "iterator_traits.hpp"
 
 namespace ft{
-template<typename _Iterator>
 
+template <class Iterator>
+  struct iterator_traits {
+    typedef typename Iterator::iterator_category iterator_category;
+    typedef typename Iterator::value_type        value_type;
+    typedef typename Iterator::difference_type   difference_type;
+    typedef typename Iterator::pointer           pointer;
+    typedef typename Iterator::reference         reference;
+  };
+
+  template <class T>
+  struct iterator_traits<T*> {
+    typedef random_access_iterator_tag iterator_category;
+    typedef T                          value_type;
+    typedef ptrdiff_t                  difference_type;
+    typedef T*                         pointer;
+    typedef T&                         reference;
+  };
+
+template<typename _Iterator>
 class reverse_iterator : : public iterator<typename iterator_traits<_Iterator>::iterator_category,
         					typename iterator_traits<_Iterator>::value_type,
        						typename iterator_traits<_Iterator>::difference_type,
