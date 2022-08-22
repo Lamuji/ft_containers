@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/22 23:24:45 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/22 23:26:28 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,37 +291,6 @@ namespace ft
 				
 			}
 
-			iterator    insert(iterator position, const T& x)
-			{
-				typename iterator::difference_type diff = position - begin();
-				insert(begin() + diff, 1, x);
-				return (begin() + diff);
-			}
-
-			template <class InputIterator>
-			void    insert(iterator position, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last)
-			{
-				size_type   pos = position - begin();
-				size_type   added_size = last - first;
-
-				if (added_size == 0)
-					return;
-				if (_capacity < _size + added_size)
-					realloc(_size + added_size);
-				for(size_type i = _size + added_size - 1; i != pos + added_size - 1; i--)
-				{
-					if (i < _size)
-						_alloc.destroy(&(_data[i]));
-					_alloc.construct(&(_data[i]), _data[i - added_size]);
-				}
-				for(size_type i = pos; i < pos + added_size; i++)
-				{
-					if (i < _size)
-						_alloc.destroy(&(_data[i]));
-					_alloc.construct(&(_data[i]), *(first++));
-				}
-				_size = _size + added_size;
-			}
 
 			iterator erase (iterator position)
 			{
