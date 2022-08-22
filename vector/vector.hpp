@@ -6,18 +6,23 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/17 20:27:08 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/22 16:03:33 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <memory>
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
+
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
+#include "../random_access_iterator.hpp"
+#include <memory>
 #include <stdexcept>
+
 
 namespace ft
 {
-    template< class T,class Allocator = std::allocator<T> >
+    template< class T,class Allocator = std::allocator<T>, class iterator = ft::iterator<T> >
 
     class vector
     {
@@ -29,7 +34,6 @@ namespace ft
             typedef typename allocator_type::pointer pointer;
             typedef typename allocator_type::const_pointer const_pointer;
             typedef typename allocator_type::size_type size_type;
-            
             /* CONSTRUCTORS */
             
             vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc), _size(0), _capacity(0) {};
@@ -137,14 +141,10 @@ namespace ft
                     return this->_data[n];
             }
             
-            /* a supprimer */
-            value_type* data()
+            iterator begin()
             {
-                return _data;
+                return iterator(_data);
             }
-            /* a supprimer */
-
-            
             reference front()
             {
                 return *_data;   
@@ -153,6 +153,15 @@ namespace ft
             {
                 return *_data;
             }
+            
+            /* a supprimer */
+            value_type* data()
+            {
+                return _data;
+            }
+            /* a supprimer */
+
+            
 
         private:
             allocator_type _alloc;
@@ -162,3 +171,4 @@ namespace ft
     };
 }
 
+#endif

@@ -6,10 +6,9 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 16:15:46 by misaev            #+#    #+#             */
-/*   Updated: 2022/08/13 18:04:50 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/20 19:47:18 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef IS_INTEGRAL
 # define IS_INTEGRAL
