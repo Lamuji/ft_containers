@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/22 23:26:28 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/24 16:22:00 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
-//#include "../reverse_iterator.hpp"
+#include "../iterator.hpp"
 #include <memory>
 #include <stdexcept>
 #include "../iterator_traits.hpp"
@@ -34,6 +34,7 @@ namespace ft
 				typedef T* pointer;
 				typedef T& reference;
 				typedef std::ptrdiff_t difference_type;
+				typedef ft::random_access_iterator_tag iterator_category;
 
 				/* */
 				iterator(): data() {}
@@ -60,7 +61,8 @@ namespace ft
 				iterator &operator+=(T i) { data += i; return *this; }
 				iterator &operator-=(T i) { data -= i; return *this; }
 				iterator operator[] (size_t i) {return data[i];}
-				
+
+
 				T& operator*() {return *data;}
 			private:
 				T* data;
@@ -160,14 +162,14 @@ namespace ft
             void    reserve(size_type n)
             {
                 if (n > _capacity){
+					if (n > max_size())
+						throw	std::length_error("vector");
                     pointer data_tmp = _alloc.allocate(n);
-                    size_type i = 0;
-                    for (; i < n; i++)
+                    for (size_type i = 0; i < n; i++)
                         _alloc.construct(data_tmp + i, _data[i]);
                     _alloc.deallocate(_data, _capacity);
                     _data = _alloc.allocate(n);
                     _data = data_tmp;
-                    _alloc.deallocate(data_tmp, n);
                     _capacity = n;
                 }
             }
@@ -207,6 +209,14 @@ namespace ft
 
 			/* MODIFIERS */
 
+			void clear() {
+				for (size_type i = 0; i < _size; i++){
+					_alloc.destroy(_data + i);
+				}
+				_size = 0;
+			}
+
+			
 			template <class InputIterator>
 			void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 			{
@@ -274,23 +284,45 @@ namespace ft
 
 			void    insert(iterator position, size_type n, const T& x)
 			{
-				typename iterator::difference_type diff = position + begin();
-				if (n == 0)
-					return;
-				if (_capacity < _size + n)
-					realloc(_size + n);
-				pointer tmp = _alloc.allocate(_size + n);
-				for (iterator it = position; it != end(); it++){
-					tmp = _alloc.construct(_data + it, _data[it]);
-					_alloc.destroy(_data + it);
+
+				ft::vector<T> tmp(_size + n);
+				typename iterator::difference_type pos = *position;
+				for (size_type i = 0; i < _size + n; i++)
+				{
+					if (i == pos){
+						tmp.assign(_data + i, _data + i + n , x);
+						i += n;
+					}
+					tmp.push_back(_data[i]);
 				}
-				for (iterator it = position; it != end() + n, it++)
-					_data = _alloc.construct(_data + it, x);
-				for(iterator it = end(); it != end() + n, it++)
-					_data = _alloc(_data + it, tmp[])
+				//clear();
+				if((_size + n) > _capacity)
+					reserve(_size + (n * 2));
+				*this = tmp;
 				
+				
+				// size_type j = 2;
+				// for (; pos != _size; pos++)
+				// {
+				// 	_alloc.construct(_data + ((_size + n) - j), _data[_size - j]);
+				// 	j++;
+				// }
+				// typename iterator::difference_type pos_1 = *position - 1;
+
+				// size_type k = pos_1;
+				// for (; pos_1 != k + n; pos_1++){
+				// 	_alloc.construct(_data + pos_1, x);
+				// }
+				// _size += n;
 			}
 
+			// iterator insert (iterator position, const value_type& val)
+			// {
+			// 	size_type i = std::distance(begin(), position);
+			// 	insert(position, 1, val);
+
+			// 	return begin() + i;
+			// }
 
 			iterator erase (iterator position)
 			{
@@ -307,17 +339,13 @@ namespace ft
 
 			void	realloc(size_type n)
 			{
-					if ((n - _size) > _size)
+				if ((n - _size) > _size)
 					reserve(n);
 				else
 					reserve(_size + _size);
 			}
+
 	};
 };
-// template<typename T>
-// std::ostream&	operator<<(std::ostream& o, ft::vector<T> const& rhs){
-// }
-
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:42:53 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/22 21:47:01 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/23 14:10:25 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,7 @@ namespace ft {
 		typedef Reference reference;
 		typedef Category  iterator_category;
 	};
-	
-	// Empty class to identify the category/tag of an iterator 
-	// struct input_iterator_tag {};
-	// struct output_iterator_tag {};
-	// struct forward_iterator_tag : public input_iterator_tag {};
-	// struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	// struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-	// typedef std tag, using personnal/ft tag who are juste empty struct (like above),
-	// don't allow to use std iterator in function like ditance, advance...
-	// This permit to use range function like: constructor, insert.. with stl iterator.
 	typedef struct std::input_iterator_tag input_iterator_tag;
 	typedef struct std::output_iterator_tag output_iterator_tag;
 	typedef struct std::forward_iterator_tag forward_iterator_tag;
