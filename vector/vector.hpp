@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/24 16:22:00 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/08/24 17:05:11 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,36 +284,27 @@ namespace ft
 
 			void    insert(iterator position, size_type n, const T& x)
 			{
-
-				ft::vector<T> tmp(_size + n);
+				if ((_size + n) > _capacity)
+					reserve(_size + n);
 				typename iterator::difference_type pos = *position;
-				for (size_type i = 0; i < _size + n; i++)
+				iterator it =  begin();
+				iterator en =  end();
+				size_type i = 0;
+				size_type secnd_n = n; // N = 2
+				for (; it != en; it++)
 				{
-					if (i == pos){
-						tmp.assign(_data + i, _data + i + n , x);
-						i += n;
+					if(*it == *position)
+					{
+						for (; n > 0; n--)
+						{
+							_alloc.construct(_data + i + secnd_n, x);
+							// _data[i + secnd_n] = x;
+							i++;
+						}
+						break;
 					}
-					tmp.push_back(_data[i]);
+					i++;
 				}
-				//clear();
-				if((_size + n) > _capacity)
-					reserve(_size + (n * 2));
-				*this = tmp;
-				
-				
-				// size_type j = 2;
-				// for (; pos != _size; pos++)
-				// {
-				// 	_alloc.construct(_data + ((_size + n) - j), _data[_size - j]);
-				// 	j++;
-				// }
-				// typename iterator::difference_type pos_1 = *position - 1;
-
-				// size_type k = pos_1;
-				// for (; pos_1 != k + n; pos_1++){
-				// 	_alloc.construct(_data + pos_1, x);
-				// }
-				// _size += n;
 			}
 
 			// iterator insert (iterator position, const value_type& val)
