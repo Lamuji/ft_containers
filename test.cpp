@@ -16,8 +16,8 @@ int main()
 	myvector[4] = 5;
 	ft::vector<int>::iterator it = myvector.begin() + 4;
 
-	// it = myvector.insert ( it , 200 );
-	myvector.insert(it, 2, 10);
+	 it = myvector.insert ( it , 200 );
+	//myvector.insert(it, 2, 10);
  	cout << *it << endl << endl;
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;

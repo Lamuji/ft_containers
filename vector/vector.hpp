@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ramzi <ramzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/24 17:05:11 by misaev           ###   ########.fr       */
+/*   Updated: 2022/08/29 23:42:44 by ramzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ namespace ft
 
             iterator begin(){ return iterator(_data);}
             /* ELEMENT ACCESS */
-			iterator end() { return iterator(_data + (_size - 1));}
+			iterator end() { return iterator(_data + (_size));}
 
             reference operator[] (size_type n)
 			{
@@ -282,38 +282,51 @@ namespace ft
 				_alloc.destroy(_data + _size - 1);
 			}
 
-			void    insert(iterator position, size_type n, const T& x)
+			void    insert(iterator position, size_type count, const T& x)
 			{
-				if ((_size + n) > _capacity)
-					reserve(_size + n);
-				typename iterator::difference_type pos = *position;
-				iterator it =  begin();
-				iterator en =  end();
-				size_type i = 0;
-				size_type secnd_n = n; // N = 2
-				for (; it != en; it++)
-				{
-					if(*it == *position)
-					{
-						for (; n > 0; n--)
-						{
-							_alloc.construct(_data + i + secnd_n, x);
-							// _data[i + secnd_n] = x;
-							i++;
-						}
-						break;
+				int index = position - begin();
+				size_t max_size = _size + count;
+
+				if (count >= _capacity) {
+					reserve(_capacity + count);
+					_size = max_size;
+				} else {
+					while (_size != max_size) {
+						if (_size == _capacity)
+							reserve(_capacity * 2);
+						_size++;
 					}
-					i++;
+				}
+				for (int i = _size; i >= 0; --i) {
+					if (i == index + count-1) {
+						for (; count > 0; --count, --i) {
+							_data[i] = x;
+						}
+               			 return;
+          	 		}
+				_data[i] = _data[i - count];
 				}
 			}
+				// iterator begin = _data;
+				// iterator pos = position;
+				// // for (size_type i = _size + n; i > _size - 1; i--)
+				// // 	_alloc.construct(_data + i, x)
+				// size_type iter = 0;
+				// for (; begin != pos; begin++){iter++;}
+				// for (size_type i = 0; i < n; i++){
+				// 	_alloc.construct(_data + _size, *begin++);
+				// 	_alloc.construct(_data + iter, x);
+				// 	iter++;
+					
+				// }
 
-			// iterator insert (iterator position, const value_type& val)
-			// {
-			// 	size_type i = std::distance(begin(), position);
-			// 	insert(position, 1, val);
+			iterator insert (iterator position, const value_type& val)
+			{
+				size_type i = std::distance(begin(), position);
+				insert(position, 1, val);
 
-			// 	return begin() + i;
-			// }
+				return begin() + i;
+			}
 
 			iterator erase (iterator position)
 			{
