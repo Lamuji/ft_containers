@@ -6,7 +6,7 @@
 /*   By: ramzi <ramzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/29 23:42:44 by ramzi            ###   ########.fr       */
+/*   Updated: 2022/08/29 23:52:49 by ramzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,18 +307,6 @@ namespace ft
 				_data[i] = _data[i - count];
 				}
 			}
-				// iterator begin = _data;
-				// iterator pos = position;
-				// // for (size_type i = _size + n; i > _size - 1; i--)
-				// // 	_alloc.construct(_data + i, x)
-				// size_type iter = 0;
-				// for (; begin != pos; begin++){iter++;}
-				// for (size_type i = 0; i < n; i++){
-				// 	_alloc.construct(_data + _size, *begin++);
-				// 	_alloc.construct(_data + iter, x);
-				// 	iter++;
-					
-				// }
 
 			iterator insert (iterator position, const value_type& val)
 			{
@@ -326,6 +314,10 @@ namespace ft
 				insert(position, 1, val);
 
 				return begin() + i;
+			}
+
+			void insert(iterator first, iterator last, const value_type& val){
+				
 			}
 
 			iterator erase (iterator position)
