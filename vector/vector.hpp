@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/24 16:22:00 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/01 11:22:27 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 #include "../iterator.hpp"
 #include <memory>
 #include <stdexcept>
-#include "../iterator_traits.hpp"
-#include <stddef.h>
+#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -76,7 +75,8 @@ namespace ft
             typedef typename allocator_type::pointer pointer;
             typedef typename allocator_type::const_pointer const_pointer;
             typedef typename allocator_type::size_type size_type;
-	
+
+            
             /* CONSTRUCTORS */
             
             vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc), _size(0), _capacity(0) {};
@@ -282,70 +282,26 @@ namespace ft
 				_alloc.destroy(_data + _size - 1);
 			}
 
-			void    insert(iterator position, size_type n, const T& x)
-			{
+		iterator insert (iterator position, const value_type& val) {} // single element
 
-				ft::vector<T> tmp(_size + n);
-				typename iterator::difference_type pos = *position;
-				for (size_type i = 0; i < _size + n; i++)
-				{
-					if (i == pos){
-						tmp.assign(_data + i, _data + i + n , x);
-						i += n;
-					}
-					tmp.push_back(_data[i]);
-				}
-				//clear();
-				if((_size + n) > _capacity)
-					reserve(_size + (n * 2));
-				*this = tmp;
-				
-				
-				// size_type j = 2;
-				// for (; pos != _size; pos++)
-				// {
-				// 	_alloc.construct(_data + ((_size + n) - j), _data[_size - j]);
-				// 	j++;
-				// }
-				// typename iterator::difference_type pos_1 = *position - 1;
+   		void insert (iterator position, size_type n, const value_type& val); // fill
 
-				// size_type k = pos_1;
-				// for (; pos_1 != k + n; pos_1++){
-				// 	_alloc.construct(_data + pos_1, x);
-				// }
-				// _size += n;
-			}
+		template <class InputIterator>
+   		void insert (iterator position, InputIterator first, InputIterator last); //  range
 
-			// iterator insert (iterator position, const value_type& val)
-			// {
-			// 	size_type i = std::distance(begin(), position);
-			// 	insert(position, 1, val);
-
-			// 	return begin() + i;
-			// }
-
-			iterator erase (iterator position)
-			{
+		iterator erase (iterator position){
+			pointer tmp = _alloc.allocate(_capacity);
 			
-			}
-			
-			iterator erase (iterator first, iterator last);
+		}
+		iterator erase (iterator first, iterator last);
 
         private:
             allocator_type _alloc;
             pointer _data;
             size_type _size;
             size_type _capacity;
-
-			void	realloc(size_type n)
-			{
-				if ((n - _size) > _size)
-					reserve(n);
-				else
-					reserve(_size + _size);
-			}
-
-	};
-};
+			ft::iterator_traits it;
+    };
+}
 
 #endif
