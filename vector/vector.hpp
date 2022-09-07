@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:16:03 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 15:36:44 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,15 +321,10 @@ namespace ft
 			// 	std::copy(first, last, position);
 			// }
 
-			iterator erase (iterator position){
-				size_type t = 0;
+			iterator erase (iterator position)
+			{
+				size_type t = position - begin();
 				iterator a = begin();
-				for(; a != end(); a++)
-				{
-					if (a == position)
-						break;
-					t++;
-				}
 				for(; t < _size; t++)
 				{
 					if (t == _size)
@@ -340,9 +335,12 @@ namespace ft
 					_alloc.construct(_data + t, _data[t + 1]);
 				}
 				_size -= 1;
-				return begin();
+				return position;
 			}
+
 			iterator erase (iterator first, iterator last);
+
+			
 
         private:
             allocator_type _alloc;

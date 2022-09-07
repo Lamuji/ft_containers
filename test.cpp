@@ -23,7 +23,7 @@ int main()
 		cout << myvector[i] << endl;
 	cout << '\n';
 	cout << '\n';
-	myvector.erase(it);
+	cout << *myvector.erase(it) << endl;
 
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;
