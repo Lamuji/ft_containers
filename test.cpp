@@ -20,7 +20,7 @@ int main()
 	myvector[7] = 8;
 	myvector[8] = 9;
 	
-	myvector.erase(myvector.begin() + 1, myvector.begin() + 5);
+	myvector.erase(myvector.begin() + 1);
 
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;

@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:17:21 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/07 15:36:51 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,13 +293,107 @@ namespace ft
 				_alloc.destroy(_data + _size - 1);
 			}
 
+			void    insert(iterator position, size_type count, const T& x)
+			{
+				int index = position - begin();
+				size_t max_size = _size + count;
+
+				if (count >= _capacity) {
+					reserve(_capacity + count);
+					_size = max_size;
+				} else {
+					while (_size != max_size) {
+						if (_size == _capacity)
+							reserve(_capacity * 2);
+						_size++;
+					}
+				}
+				for (int i = _size; i >= 0; --i) {
+					if (i == index + count-1) {
+						for (; count > 0; --count, --i) {
+							_data[i] = x;
+						}
+               			 return;
+          	 		}
+				_data[i] = _data[i - count];
+				}
+			}
+
+			iterator insert (iterator position, const value_type& val)
+			{
+				size_type i = std::distance(begin(), position);
+				insert(position, 1, val);
+
+				return begin() + i;
+			}
+
+			void insert(iterator first, iterator last, const value_type& val)
+			{
+				
+			}
+
+			iterator erase (iterator position)
+			{
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != end(); a++)
+				{
+					if (a == position)
+						break;
+					t++;
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				_size -= 1;
+				return begin();
+			}
+			
+			iterator erase (iterator first, iterator last)
+			{
+				size_type i = std::distance(first, last);
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != first; a++)
+				{
+				}
+				for(; a != last; t++)
+				{
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				return begin();
+			}
 
         private:
             allocator_type _alloc;
             pointer _data;
             size_type _size;
             size_type _capacity;
-    };
+
+			void	realloc(size_type n)
+			{
+				if ((n - _size) > _size)
+					reserve(n);
+				else
+					reserve(_size + _size);
+			}
+
+	};
 }
 
 #endif
