@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzi <ramzi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/29 23:52:49 by ramzi            ###   ########.fr       */
+/*   Updated: 2022/09/07 14:21:59 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,25 @@ namespace ft
 				iterator& operator=(const iterator& rhs) { data = rhs.data; return *this;}
 				~iterator() {}
 				/* */ 
-				bool operator==(const iterator& rhs) const {return data==rhs.data;}
-				bool operator!=(const iterator& rhs) const {return data!=rhs.data;}
-				bool operator<(const iterator &rhs) const { return data < rhs.data; }
-				bool operator>(const iterator &rhs) const { return data > rhs.data; }
-				bool operator<=(const iterator &rhs) const { return data <= rhs.data; }
-				bool operator>=(const iterator &rhs) const { return data >= rhs.data; }
+				template <class It>
+				bool	operator==(It const & rhs) const {return (data == rhs.data);}
+				template <class It>
+				bool	operator!=(It const & rhs) const {return (data != rhs.data);}
+				template <class It>
+				bool	operator>(It const & rhs) const {return (data > rhs.data);}
+				template <class It>
+				bool	operator<(It const & rhs) const {return (data < rhs.data);}
+				template <class It>
+				bool	operator>=(It const & rhs) const {return (data >= rhs.data);}
+				template <class It>
+				bool	operator<=(It const & rhs) const {return (data <= rhs.data);}				
 				/* */
 				iterator& operator++() {++data;return *this;}
-				iterator operator++(int) {iterator tmp(*this); operator--(); return tmp;}
+
+				iterator operator++(int) {iterator tmp(*this); operator++(); return tmp;}
+				
 				iterator& operator--() {--data;return *this;}
+				
 				iterator operator--(int) {iterator tmp(*this); operator--(); return tmp;}
 				/* */
 				T operator-(const iterator &rhs) const { return data - rhs.data; }
@@ -209,7 +218,8 @@ namespace ft
 
 			/* MODIFIERS */
 
-			void clear() {
+			void clear() 
+			{
 				for (size_type i = 0; i < _size; i++){
 					_alloc.destroy(_data + i);
 				}
@@ -238,7 +248,8 @@ namespace ft
 				}
 			}
 
-			void assign (size_type n, const value_type& val){
+			void assign (size_type n, const value_type& val)
+			{
 				if (n > _capacity){
 					_alloc.deallocate(_data, _capacity);
 					_data = _alloc.allocate(n);
@@ -316,16 +327,57 @@ namespace ft
 				return begin() + i;
 			}
 
-			void insert(iterator first, iterator last, const value_type& val){
+			void insert(iterator first, iterator last, const value_type& val)
+			{
 				
 			}
 
 			iterator erase (iterator position)
 			{
-			
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != end(); a++)
+				{
+					if (a == position)
+						break;
+					t++;
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				_size -= 1;
+				return begin();
 			}
 			
-			iterator erase (iterator first, iterator last);
+			iterator erase (iterator first, iterator last)
+			{
+				size_type i = std::distance(first, last);
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != first; a++)
+				{
+				}
+				for(; a != last; t++)
+				{
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				return begin();
+			}
 
         private:
             allocator_type _alloc;
