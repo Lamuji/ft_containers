@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:40:34 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 16:48:05 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ namespace ft
             /* CONSTRUCTORS */
             
             vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc), _size(0), _capacity(0) {};
-            
+
             vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _alloc(alloc)
             {
                 _data = _alloc.allocate(n);
@@ -326,10 +326,17 @@ namespace ft
 
 				return begin() + i;
 			}
-
-			void insert(iterator first, iterator last, const value_type& val)
+			template<class InputIterator>
+			void insert(iterator position, InputIterator first, 
+				InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 			{
-				
+				int pos = position - begin();
+				size_type count = last - first;
+				position = begin() + pos;
+				for (InputIterator it = first; it != last; it++){
+					position = insert(position, *it);
+					position++;
+				}
 			}
 
 			iterator erase (iterator position)
@@ -348,7 +355,7 @@ namespace ft
 				_size -= 1;
 				return position;
 			}
-			
+
 			iterator erase (iterator first, iterator last)
 			{
 				size_type i = std::distance(first, last);
@@ -372,8 +379,6 @@ namespace ft
 				}
 				return begin();
 			}
-
-			
 
         private:
             allocator_type _alloc;

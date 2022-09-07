@@ -1,6 +1,6 @@
 ===VECTOR=== 
 
-insert (range)  [UNFINISHED]
+insert (range)  [DONE]
 erase (range)   [UNFINISHED]
 swap ()         [UNFINISHED]
 rbegin ()       [UNFINISHED]

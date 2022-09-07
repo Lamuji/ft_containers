@@ -8,23 +8,23 @@ using namespace std;
 
 int main() 
 {
-	std::vector<int> myvector (10);
+	ft::vector<int> myvector (20);
 
 	myvector[0] = 1;
 	myvector[1] = 2;
 	myvector[2] = 3;
 	myvector[3] = 4;
 	myvector[4] = 5;
-	std::vector<int>::iterator it = myvector.begin() + 1;
-
-	 it = myvector.insert ( it , 200 );
-	//myvector.insert(it, 2, 10);
- 	cout << *it << endl << endl;
-	for (size_t i = 0; i < myvector.size(); i++)
-		cout << myvector[i] << endl;
-	cout << '\n';
-	cout << '\n';
-	cout << *myvector.erase(it) << endl;
+	myvector[5] = 5;
+	myvector[6] = 6;
+	myvector[7] = 7;
+	myvector[8] = 8;
+	myvector[9] = 9;
+	myvector[10] = 10;
+	myvector[11] = 11;
+	ft::vector<int>::iterator it = myvector.begin() + 4;
+	ft::vector<int>::iterator it2 = myvector.begin() + 9;
+	myvector.insert(myvector.begin() + 1, it, it2);
 
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;
