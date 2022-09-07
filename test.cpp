@@ -8,13 +8,14 @@ using namespace std;
 
 int main() 
 {
-	ft::vector<int> myvector (10);
+	std::vector<int> myvector (10);
+
 	myvector[0] = 1;
 	myvector[1] = 2;
 	myvector[2] = 3;
 	myvector[3] = 4;
 	myvector[4] = 5;
-	ft::vector<int>::iterator it = myvector.begin() + 4;
+	std::vector<int>::iterator it = myvector.begin() + 1;
 
 	 it = myvector.insert ( it , 200 );
 	//myvector.insert(it, 2, 10);
@@ -27,7 +28,6 @@ int main()
 
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;
-//	myvector.assign(vec.begin(),vec.end());
 
   return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:36:44 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 15:40:34 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "../iterator_traits.hpp"
 #include <memory>
 #include <stdexcept>
-
 
 namespace ft
 {
@@ -43,16 +42,25 @@ namespace ft
 				iterator& operator=(const iterator& rhs) { data = rhs.data; return *this;}
 				~iterator() {}
 				/* */ 
-				bool operator==(const iterator& rhs) const {return data==rhs.data;}
-				bool operator!=(const iterator& rhs) const {return data!=rhs.data;}
-				bool operator<(const iterator &rhs) const { return data < rhs.data; }
-				bool operator>(const iterator &rhs) const { return data > rhs.data; }
-				bool operator<=(const iterator &rhs) const { return data <= rhs.data; }
-				bool operator>=(const iterator &rhs) const { return data >= rhs.data; }
+				template <class It>
+				bool	operator==(It const & rhs) const {return (data == rhs.data);}
+				template <class It>
+				bool	operator!=(It const & rhs) const {return (data != rhs.data);}
+				template <class It>
+				bool	operator>(It const & rhs) const {return (data > rhs.data);}
+				template <class It>
+				bool	operator<(It const & rhs) const {return (data < rhs.data);}
+				template <class It>
+				bool	operator>=(It const & rhs) const {return (data >= rhs.data);}
+				template <class It>
+				bool	operator<=(It const & rhs) const {return (data <= rhs.data);}				
 				/* */
 				iterator& operator++() {++data;return *this;}
-				iterator operator++(int) {iterator tmp(*this); operator--(); return tmp;}
+
+				iterator operator++(int) {iterator tmp(*this); operator++(); return tmp;}
+				
 				iterator& operator--() {--data;return *this;}
+				
 				iterator operator--(int) {iterator tmp(*this); operator--(); return tmp;}
 				/* */
 				T operator-(const iterator &rhs) const { return data - rhs.data; }
@@ -210,7 +218,8 @@ namespace ft
 
 			/* MODIFIERS */
 
-			void clear() {
+			void clear() 
+			{
 				for (size_type i = 0; i < _size; i++){
 					_alloc.destroy(_data + i);
 				}
@@ -239,7 +248,8 @@ namespace ft
 				}
 			}
 
-			void assign (size_type n, const value_type& val){
+			void assign (size_type n, const value_type& val)
+			{
 				if (n > _capacity){
 					_alloc.deallocate(_data, _capacity);
 					_data = _alloc.allocate(n);
@@ -291,8 +301,7 @@ namespace ft
 				if (count >= _capacity) {
 					reserve(_capacity + count);
 					_size = max_size;
-				}
-				else {
+				} else {
 					while (_size != max_size) {
 						if (_size == _capacity)
 							reserve(_capacity * 2);
@@ -301,9 +310,10 @@ namespace ft
 				}
 				for (int i = _size; i >= 0; --i) {
 					if (i == index + count-1) {
-						for (; count > 0; --count, --i)
+						for (; count > 0; --count, --i) {
 							_data[i] = x;
-               			return;
+						}
+               			 return;
           	 		}
 				_data[i] = _data[i - count];
 				}
@@ -313,13 +323,14 @@ namespace ft
 			{
 				size_type i = std::distance(begin(), position);
 				insert(position, 1, val);
+
 				return begin() + i;
 			}
 
-			// template <class InputIterator>
-			// void insert(iterator position, InputIterator first, InputIterator last){
-			// 	std::copy(first, last, position);
-			// }
+			void insert(iterator first, iterator last, const value_type& val)
+			{
+				
+			}
 
 			iterator erase (iterator position)
 			{
@@ -337,8 +348,30 @@ namespace ft
 				_size -= 1;
 				return position;
 			}
-
-			iterator erase (iterator first, iterator last);
+			
+			iterator erase (iterator first, iterator last)
+			{
+				size_type i = std::distance(first, last);
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != first; a++)
+				{
+				}
+				for(; a != last; t++)
+				{
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
+				}
+				return begin();
+			}
 
 			
 
@@ -347,7 +380,16 @@ namespace ft
             pointer _data;
             size_type _size;
             size_type _capacity;
-    };
+
+			void	realloc(size_type n)
+			{
+				if ((n - _size) > _size)
+					reserve(n);
+				else
+					reserve(_size + _size);
+			}
+
+	};
 }
 
 #endif
