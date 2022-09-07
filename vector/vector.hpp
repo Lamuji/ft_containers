@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:11:11 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/07 15:15:46 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
 #include "../iterator.hpp"
+#include "../iterator_traits.hpp"
 #include <memory>
 #include <stdexcept>
-#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -26,7 +26,7 @@ namespace ft
     class vector
     {
         public :
-		class iterator
+		class iterator : public std::random_access_iterator_tag
 		{
 			public:
 				typedef T value_type;
@@ -300,11 +300,6 @@ namespace ft
 		template <class InputIterator>
    		void insert (iterator position, InputIterator first, InputIterator last); //  range
 
-		iterator erase (iterator position){
-			pointer tmp = _alloc.allocate(_capacity);
-			
-		}
-		iterator erase (iterator first, iterator last);
 			void    insert(iterator position, size_type count, const T& x)
 			{
 				int index = position - begin();
@@ -313,7 +308,8 @@ namespace ft
 				if (count >= _capacity) {
 					reserve(_capacity + count);
 					_size = max_size;
-				} else {
+				}
+				else {
 					while (_size != max_size) {
 						if (_size == _capacity)
 							reserve(_capacity * 2);
@@ -322,10 +318,9 @@ namespace ft
 				}
 				for (int i = _size; i >= 0; --i) {
 					if (i == index + count-1) {
-						for (; count > 0; --count, --i) {
+						for (; count > 0; --count, --i)
 							_data[i] = x;
-						}
-               			 return;
+               			return;
           	 		}
 				_data[i] = _data[i - count];
 				}
@@ -335,60 +330,12 @@ namespace ft
 			{
 				size_type i = std::distance(begin(), position);
 				insert(position, 1, val);
-
 				return begin() + i;
 			}
 
-			void insert(iterator first, iterator last, const value_type& val)
-			{
-				
-			}
-
-			iterator erase (iterator position)
-			{
-				size_type t = 0;
-				iterator a = begin();
-				for(; a != end(); a++)
-				{
-					if (a == position)
-						break;
-					t++;
-				}
-				for(; t < _size; t++)
-				{
-					if (t == _size)
-					{
-						_alloc.destroy(_data + t);
-						break;
-					}
-					_alloc.construct(_data + t, _data[t + 1]);
-				}
-				_size -= 1;
-				return begin();
-			}
-			
-			iterator erase (iterator first, iterator last)
-			{
-				size_type i = std::distance(first, last);
-				size_type t = 0;
-				iterator a = begin();
-				for(; a != first; a++)
-				{
-				}
-				for(; a != last; t++)
-				{
-					_alloc.construct(_data + t, _data[t + 1]);
-				}
-				for(; t < _size; t++)
-				{
-					if (t == _size)
-					{
-						_alloc.destroy(_data + t);
-						break;
-					}
-					_alloc.construct(_data + t, _data[t + 1]);
-				}
-				return begin();
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last){
+				std::copy(first, last, position);
 			}
 
         private:
@@ -396,7 +343,6 @@ namespace ft
             pointer _data;
             size_type _size;
             size_type _capacity;
-			ft::iterator_traits it;
     };
 }
 
