@@ -1,0 +1,11 @@
+===VECTOR=== 
+
+insert (range)  [UNFINISHED]
+erase (range)   [UNFINISHED]
+swap ()         [UNFINISHED]
+rbegin ()       [UNFINISHED]
+rbegin const () [UNFINISHED]
+rend ()         [UNFINISHED]
+rend const ()   [UNFINISHED]
+operators       [UNFINISHED]
+swap            [UNFINISHED]
