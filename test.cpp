@@ -9,19 +9,21 @@ using namespace std;
 int main() 
 {
 	ft::vector<int> myvector (10);
+
 	myvector[0] = 1;
 	myvector[1] = 2;
 	myvector[2] = 3;
 	myvector[3] = 4;
 	myvector[4] = 5;
-	ft::vector<int>::iterator it = myvector.begin() + 4;
+	myvector[5] = 6;
+	myvector[6] = 7;
+	myvector[7] = 8;
+	myvector[8] = 9;
+	
+	myvector.erase(myvector.begin() + 1, myvector.begin() + 5);
 
-	// it = myvector.insert ( it , 200 );
-	myvector.insert(it, 10, 8);
- 	cout << *it << endl << endl;
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;
-//	myvector.assign(vec.begin(),vec.end());
 
   return 0;
 }
