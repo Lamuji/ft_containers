@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:15:46 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/07 15:17:21 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,50 +293,6 @@ namespace ft
 				_alloc.destroy(_data + _size - 1);
 			}
 
-		iterator insert (iterator position, const value_type& val) {} // single element
-
-   		void insert (iterator position, size_type n, const value_type& val); // fill
-
-		template <class InputIterator>
-   		void insert (iterator position, InputIterator first, InputIterator last); //  range
-
-			void    insert(iterator position, size_type count, const T& x)
-			{
-				int index = position - begin();
-				size_t max_size = _size + count;
-
-				if (count >= _capacity) {
-					reserve(_capacity + count);
-					_size = max_size;
-				}
-				else {
-					while (_size != max_size) {
-						if (_size == _capacity)
-							reserve(_capacity * 2);
-						_size++;
-					}
-				}
-				for (int i = _size; i >= 0; --i) {
-					if (i == index + count-1) {
-						for (; count > 0; --count, --i)
-							_data[i] = x;
-               			return;
-          	 		}
-				_data[i] = _data[i - count];
-				}
-			}
-
-			iterator insert (iterator position, const value_type& val)
-			{
-				size_type i = std::distance(begin(), position);
-				insert(position, 1, val);
-				return begin() + i;
-			}
-
-			template <class InputIterator>
-			void insert(iterator position, InputIterator first, InputIterator last){
-				std::copy(first, last, position);
-			}
 
         private:
             allocator_type _alloc;
