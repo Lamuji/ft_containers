@@ -8,7 +8,7 @@ using namespace std;
 
 int main() 
 {
-	ft::vector<int> myvector (20);
+	std::vector<int> myvector (11);
 
 	myvector[0] = 1;
 	myvector[1] = 2;
@@ -22,21 +22,23 @@ int main()
 	myvector[9] = 9;
 	myvector[10] = 10;
 	myvector[11] = 11;
-	ft::vector<int>::iterator it = myvector.begin() + 4;
-	ft::vector<int>::iterator it2 = myvector.begin() + 9;
-	myvector.insert(myvector.begin() + 1, it, it2);
+	// ft::vector<int>::iterator it = myvector.begin() + 4;
+	// ft::vector<int>::iterator it2 = myvector.begin() + 9;
+	// myvector.insert(myvector.begin() + 1, it, it2);
 
-	for (size_t i = 0; i < myvector.size(); i++)
-		cout << myvector[i] << endl;
+	// for (size_t i = 0; i < myvector.size(); i++)
+	// 	cout << myvector[i] << endl;
 
-	ft::vector<int> newvector(20);
-	myvector.swap(newvector);
-	cout << "new vector\n";
-	for (size_t i = 0; i < myvector.size(); i++)
-		cout << myvector[i] << endl;
-	cout << "old\n";
-	for (size_t i = 0; i < newvector.size(); i++)
-		cout << newvector[i] << endl;
+	// ft::vector<int> newvector(20);
+	// myvector.swap(newvector);
+	// cout << "new vector\n";
+	// for (size_t i = 0; i < myvector.size(); i++)
+	// 	cout << myvector[i] << endl;
+	// cout << "old\n";
+	// for (size_t i = 0; i < newvector.size(); i++)
+	// 	cout << newvector[i] << endl;
+
+	cout << *myvector.rend() << endl;
 
   return 0;
 }

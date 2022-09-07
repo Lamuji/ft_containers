@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 17:50:55 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 20:39:41 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../is_integral.hpp"
 #include "../iterator.hpp"
 #include "../iterator_traits.hpp"
+#include "../reverse_iterator.hpp"
 #include <memory>
 #include <stdexcept>
 
@@ -135,7 +136,7 @@ namespace ft
             size_type size() const {return _size;}
 
             size_type max_size() const{  return _alloc.max_size();}
-            
+
             // _alloc.destroy et _alloc.construct modifie la _size
             // _alloc.allocate et _alloc.deallocate modifie la _capacity
             void resize (size_type n, value_type val = value_type())
@@ -186,6 +187,14 @@ namespace ft
             iterator begin(){ return iterator(_data);}
             /* ELEMENT ACCESS */
 			iterator end() { return iterator(_data + (_size));}
+
+			reverse_iterator<iterator> rbegin(){
+				return reverse_iterator<iterator>(_data + _size);
+			}
+
+			reverse_iterator<iterator> rend(){
+				return reverse_iterator<iterator>(_data);
+			}
 
             reference operator[] (size_type n)
 			{
