@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:11:02 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 15:16:03 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "../iterator_traits.hpp"
 #include <memory>
 #include <stdexcept>
-#include "iterator_traits.hpp"
+
 
 namespace ft
 {
@@ -316,26 +316,31 @@ namespace ft
 				return begin() + i;
 			}
 
-			template <class InputIterator>
-			void insert(iterator position, InputIterator first, InputIterator last){
-				std::copy(first, last, position);
-			}
+			// template <class InputIterator>
+			// void insert(iterator position, InputIterator first, InputIterator last){
+			// 	std::copy(first, last, position);
+			// }
 
 			iterator erase (iterator position){
-
-				pointer tmp = _alloc.allocate(_capacity);
-				int pos = position - begin();
-				size_type k = pos + 1;
-				for (size_type i = 0 ; i < _size; i++){
-					if (i == pos)
-						_alloc.construct(tmp + i, _data[k]);
-					_alloc.construct(tmp + i, _data[i]);
+				size_type t = 0;
+				iterator a = begin();
+				for(; a != end(); a++)
+				{
+					if (a == position)
+						break;
+					t++;
+				}
+				for(; t < _size; t++)
+				{
+					if (t == _size)
+					{
+						_alloc.destroy(_data + t);
+						break;
+					}
+					_alloc.construct(_data + t, _data[t + 1]);
 				}
 				_size -= 1;
-				for (size_type j = 0; j < _size; j++){
-					_data[j] = tmp[j];
-				}
-				return position + 1;
+				return begin();
 			}
 			iterator erase (iterator first, iterator last);
 
