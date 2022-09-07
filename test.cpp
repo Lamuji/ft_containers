@@ -29,5 +29,14 @@ int main()
 	for (size_t i = 0; i < myvector.size(); i++)
 		cout << myvector[i] << endl;
 
+	ft::vector<int> newvector(20);
+	myvector.swap(newvector);
+	cout << "new vector\n";
+	for (size_t i = 0; i < myvector.size(); i++)
+		cout << myvector[i] << endl;
+	cout << "old\n";
+	for (size_t i = 0; i < newvector.size(); i++)
+		cout << newvector[i] << endl;
+
   return 0;
 }

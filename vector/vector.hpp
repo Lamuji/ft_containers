@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 16:48:05 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 17:50:55 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,24 @@ namespace ft
 					_alloc.construct(_data + t, _data[t + 1]);
 				}
 				return begin();
+			}
+
+			void swap (vector& x){
+
+				T* tmp_data = this->_data;
+				Allocator tmp_alloc = this->_alloc;
+				size_type tmp_capacity = this->_capacity;
+				size_type tmp_size = this->_size;
+
+				_data = x._data;
+				_alloc = x._alloc;
+				_capacity = x._capacity;
+				_size = x._size;
+
+				x._data = tmp_data;
+				x._alloc = tmp_alloc;
+				x._capacity = tmp_capacity;
+				x._size = tmp_size;
 			}
 
         private:

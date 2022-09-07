@@ -2,7 +2,7 @@
 
 insert (range)  [DONE]
 erase (range)   [UNFINISHED]
-swap ()         [UNFINISHED]
+swap ()         [DONE]
 rbegin ()       [UNFINISHED]
 rbegin const () [UNFINISHED]
 rend ()         [UNFINISHED]
