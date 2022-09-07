@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/01 11:22:27 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/07 15:05:31 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include "../enable_if.hpp"
 #include "../is_integral.hpp"
 #include "../iterator.hpp"
+#include "../iterator_traits.hpp"
 #include <memory>
 #include <stdexcept>
-#include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -26,7 +26,7 @@ namespace ft
     class vector
     {
         public :
-		class iterator
+		class iterator : public std::random_access_iterator_tag
 		{
 			public:
 				typedef T value_type;
@@ -176,7 +176,7 @@ namespace ft
 
             iterator begin(){ return iterator(_data);}
             /* ELEMENT ACCESS */
-			iterator end() { return iterator(_data + (_size - 1));}
+			iterator end() { return iterator(_data + (_size));}
 
             reference operator[] (size_type n)
 			{
@@ -282,25 +282,68 @@ namespace ft
 				_alloc.destroy(_data + _size - 1);
 			}
 
-		iterator insert (iterator position, const value_type& val) {} // single element
+			void    insert(iterator position, size_type count, const T& x)
+			{
+				int index = position - begin();
+				size_t max_size = _size + count;
 
-   		void insert (iterator position, size_type n, const value_type& val); // fill
+				if (count >= _capacity) {
+					reserve(_capacity + count);
+					_size = max_size;
+				}
+				else {
+					while (_size != max_size) {
+						if (_size == _capacity)
+							reserve(_capacity * 2);
+						_size++;
+					}
+				}
+				for (int i = _size; i >= 0; --i) {
+					if (i == index + count-1) {
+						for (; count > 0; --count, --i)
+							_data[i] = x;
+               			return;
+          	 		}
+				_data[i] = _data[i - count];
+				}
+			}
 
-		template <class InputIterator>
-   		void insert (iterator position, InputIterator first, InputIterator last); //  range
+			iterator insert (iterator position, const value_type& val)
+			{
+				size_type i = std::distance(begin(), position);
+				insert(position, 1, val);
+				return begin() + i;
+			}
 
-		iterator erase (iterator position){
-			pointer tmp = _alloc.allocate(_capacity);
-			
-		}
-		iterator erase (iterator first, iterator last);
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last){
+				std::copy(first, last, position);
+			}
+
+			iterator erase (iterator position){
+				
+				pointer tmp = _alloc.allocate(_capacity);
+				int pos = position - begin();
+				size_type k = pos + 1;
+				for (size_type i = 0 ; i < _size; i++){
+					if (i == pos)
+						_alloc.construct(tmp + i, _data[k]);
+					_alloc.construct(tmp + i, _data[i]);
+				}
+				_size -= 1;
+				for (size_type j = 0; j < _size; j++){
+					_data[j] = tmp[j];
+				}
+				return position + 1;
+			}
+
+			iterator erase (iterator first, iterator last);
 
         private:
             allocator_type _alloc;
             pointer _data;
             size_type _size;
             size_type _capacity;
-			ft::iterator_traits it;
     };
 }
 
