@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:42:04 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/08/22 16:31:09 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/07 19:31:29 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,8 @@
 
 namespace ft{
 
-template <class Iterator>
-  struct iterator_traits {
-    typedef typename Iterator::iterator_category iterator_category;
-    typedef typename Iterator::value_type        value_type;
-    typedef typename Iterator::difference_type   difference_type;
-    typedef typename Iterator::pointer           pointer;
-    typedef typename Iterator::reference         reference;
-  };
-
-  template <class T>
-  struct iterator_traits<T*> {
-    typedef random_access_iterator_tag iterator_category;
-    typedef T                          value_type;
-    typedef ptrdiff_t                  difference_type;
-    typedef T*                         pointer;
-    typedef T&                         reference;
-  };
-
 template<typename _Iterator>
-class reverse_iterator : : public iterator<typename iterator_traits<_Iterator>::iterator_category,
+class reverse_iterator :  public iterator<typename iterator_traits<_Iterator>::iterator_category,
         					typename iterator_traits<_Iterator>::value_type,
        						typename iterator_traits<_Iterator>::difference_type,
        						typename iterator_traits<_Iterator>::pointer,
@@ -62,7 +44,7 @@ public:
 	template<typename _Iter>
  	reverse_iterator (const reverse_iterator< _Iter > &__x) : current(__x.base()) { }
 
-	~reverse_iterator();
+	~reverse_iterator() {};
 
 	iterator_type 	base () const {
 		return current;
@@ -72,7 +54,7 @@ public:
 		_Iterator __tmp = current;
 		return *--__tmp;
 	}
-	
+
 	reverse_iterator 	operator+(difference_type __n) const {
 		return reverse_iterator(current - __n);
 	}

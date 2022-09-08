@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/08 14:56:57 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/08 15:52:07 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ namespace ft
             /* CONSTRUCTORS */
             
             vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc), _size(0), _capacity(0) {};
-            
+
             vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _alloc(alloc)
             {
                 _data = _alloc.allocate(n);
@@ -136,7 +136,7 @@ namespace ft
             size_type size() const {return _size;}
 
             size_type max_size() const{  return _alloc.max_size();}
-            
+
             // _alloc.destroy et _alloc.construct modifie la _size
             // _alloc.allocate et _alloc.deallocate modifie la _capacity
             void resize (size_type n, value_type val = value_type())
@@ -187,6 +187,14 @@ namespace ft
             iterator begin(){ return iterator(_data);}
             /* ELEMENT ACCESS */
 			iterator end() { return iterator(_data + (_size));}
+
+			reverse_iterator<iterator> rbegin(){
+				return reverse_iterator<iterator>(_data + _size);
+			}
+
+			reverse_iterator<iterator> rend(){
+				return reverse_iterator<iterator>(_data);
+			}
 
             reference operator[] (size_type n)
 			{
@@ -327,10 +335,17 @@ namespace ft
 
 				return begin() + i;
 			}
-
-			void insert(iterator first, iterator last, const value_type& val)
+			template<class InputIterator>
+			void insert(iterator position, InputIterator first, 
+				InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 			{
-				
+				int pos = position - begin();
+				size_type count = last - first;
+				position = begin() + pos;
+				for (InputIterator it = first; it != last; it++){
+					position = insert(position, *it);
+					position++;
+				}
 			}
 
 			iterator erase (iterator position)
@@ -349,7 +364,7 @@ namespace ft
 				_size -= 1;
 				return position;
 			}
-			
+
 			iterator erase (iterator first, iterator last)
 			{
 				size_type i = std::distance(first, last);
@@ -374,7 +389,23 @@ namespace ft
 				return last;
 			}
 
+			void swap (vector& x){
 
+				T* tmp_data = this->_data;
+				Allocator tmp_alloc = this->_alloc;
+				size_type tmp_capacity = this->_capacity;
+				size_type tmp_size = this->_size;
+
+				_data = x._data;
+				_alloc = x._alloc;
+				_capacity = x._capacity;
+				_size = x._size;
+
+				x._data = tmp_data;
+				x._alloc = tmp_alloc;
+				x._capacity = tmp_capacity;
+				x._size = tmp_size;
+			}
 
         private:
             allocator_type _alloc;
