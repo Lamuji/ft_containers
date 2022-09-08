@@ -1,11 +1,11 @@
 ===VECTOR=== 
 
 insert (range)  [DONE]
-erase (range)   [DONE] misaev
+erase (range)   [DONE]
 swap ()         [DONE]
 rbegin ()       [DONE]
 rend ()         [DONE]
 rbegin const () [UNFINISHED]
 rend const ()   [UNFINISHED]
-operators       [UNFINISHED]
+operators       [DONE]
 swap            [DONE]

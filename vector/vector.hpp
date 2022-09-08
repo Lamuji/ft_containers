@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/08 15:52:07 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/08 18:23:30 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ namespace ft
     class vector
     {
         public :
+		/* =========================DEBUT ITERATOR========================= */
 		class iterator : public std::random_access_iterator_tag
 		{
 			public:
@@ -76,8 +77,9 @@ namespace ft
 			private:
 				T* data;
 		};
+		/* =========================FIN ITERATOR========================= */
 
-
+		/* =========================DEBUT VECTOR========================= */
             typedef T value_type;
             typedef Allocator allocator_type;
             typedef typename allocator_type::reference reference;
@@ -87,7 +89,7 @@ namespace ft
             typedef typename allocator_type::size_type size_type;
 
             
-            /* CONSTRUCTORS */
+            /* ======CONSTRUCTORS====== */
             
             vector (const allocator_type& alloc = allocator_type()) : _data(NULL), _alloc(alloc), _size(0), _capacity(0) {};
 
@@ -122,8 +124,15 @@ namespace ft
 
             ~vector() { _alloc.deallocate(_data, _capacity);}
 
-            /* CONSTRUCTORS */
-
+			/* ======END CONSTRUCTORS====== */
+			
+			/* ======DEBUT OPERATOR====== */
+			bool operator== (const vector<T,allocator_type>& rhs) {return (_data == rhs._data);};
+			bool operator!= (const vector<T,allocator_type>& rhs) {return (_data != rhs._data);};
+			bool operator<  (const vector<T,allocator_type>& rhs) {return (_data < rhs._data);};
+			bool operator<= (const vector<T,allocator_type>& rhs) {return (_data <= rhs._data);};
+			bool operator>  (const vector<T,allocator_type>& rhs) {return (_data > rhs._data);};
+			bool operator>= (const vector<T,allocator_type>& rhs) {return (_data >= rhs._data);};
             vector& operator= (const vector& x)
             {
                 _data = x._data;
@@ -132,6 +141,7 @@ namespace ft
                 _capacity = x._capacity;
                 return *this;
             }
+			/* ======FIN OPERATOR====== */
 
             size_type size() const {return _size;}
 
