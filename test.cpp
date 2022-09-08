@@ -8,26 +8,18 @@ using namespace std;
 
 int main() 
 {
-	std::vector<int> myvector (10);
+//  ft::vector<int> myvector (5);  // 5 default-constructed ints
 
-	myvector[0] = 1;
-	myvector[1] = 2;
-	myvector[2] = 3;
-	myvector[3] = 4;
-	myvector[4] = 5;
-	std::vector<int>::iterator it = myvector.begin() + 1;
+//   int i=0;
 
-	 it = myvector.insert ( it , 200 );
-	//myvector.insert(it, 2, 10);
- 	cout << *it << endl << endl;
-	for (size_t i = 0; i < myvector.size(); i++)
-		cout << myvector[i] << endl;
-	cout << '\n';
-	cout << '\n';
-	cout << *myvector.erase(it) << endl;
+//   std::vector<int>::reverse_iterator rit = myvector.rbegin();
+//   for (; rit != myvector.rend(); ++rit)
+//     *rit = ++i;
 
-	for (size_t i = 0; i < myvector.size(); i++)
-		cout << myvector[i] << endl;
+//   std::cout << "myvector contains:";
+//   for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+//     std::cout << ' ' << *it;
+//   std::cout << '\n';
 
   return 0;
 }

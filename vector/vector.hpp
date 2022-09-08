@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/07 15:40:34 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/08 14:56:57 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../is_integral.hpp"
 #include "../iterator.hpp"
 #include "../iterator_traits.hpp"
+#include "../reverse_iterator.hpp"
 #include <memory>
 #include <stdexcept>
 
@@ -354,33 +355,32 @@ namespace ft
 				size_type i = std::distance(first, last);
 				size_type t = 0;
 				iterator a = begin();
-				for(; a != first; a++)
+				for (; a != first; a++, t++){};
+				for (; a != last; a++, t++)
 				{
-				}
-				for(; a != last; t++)
-				{
-					_alloc.construct(_data + t, _data[t + 1]);
+					_alloc.construct(_data + t, _data[i + 1]);
+					i++;
 				}
 				for(; t < _size; t++)
 				{
-					if (t == _size)
+					if (t >= _size)
 					{
 						_alloc.destroy(_data + t);
 						break;
 					}
 					_alloc.construct(_data + t, _data[t + 1]);
 				}
-				return begin();
+				_size -= 3;
+				return last;
 			}
 
-			
+
 
         private:
             allocator_type _alloc;
             pointer _data;
             size_type _size;
             size_type _capacity;
-
 			void	realloc(size_type n)
 			{
 				if ((n - _size) > _size)
