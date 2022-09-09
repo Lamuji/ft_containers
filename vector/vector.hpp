@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/09 19:11:38 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/09 19:14:08 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,14 @@ namespace ft
 				return reverse_iterator<iterator>(_data);
 			}
 
+			const_reverse_iterator<iterator> rbegin() const {
+				return reverse_iterator<iterator>(_data + _size);
+			}
+
+			const_reverse_iterator<iterator> rend() const {
+				return reverse_iterator<iterator>(_data);
+			}
+
             reference operator[] (size_type n)
 			{
                 if (n > _size)
@@ -345,6 +353,7 @@ namespace ft
 
 				return begin() + i;
 			}
+
 			template<class InputIterator>
 			void insert(iterator position, InputIterator first, 
 				InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
