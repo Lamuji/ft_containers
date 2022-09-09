@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/09 18:29:36 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/09 19:11:38 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,27 +377,15 @@ namespace ft
 
 			iterator erase (iterator first, iterator last)
 			{
-				size_type i = std::distance(first, last);
-				size_type t = 0;
-				iterator a = begin();
-				for (; a != first; a++, t++){};
-				for (; a != last; a++, t++)
-				{
-					_alloc.construct(_data + t, _data[i + 1]);
-					i++;
+				size_type _last = last - begin();
+				size_type _first = first - begin();
+				size_type t = _last;
+				for (size_type i = _first; i < _size; i++){
+					_alloc.construct(_data + i, _data[t]);
+					t++;
 				}
-				for(; i < _size; i++)
-				{
-					// if (i >= _size)
-					// {
-					// 	_alloc.destroy(_data + t);
-					// 	break;
-					// }
-					_alloc.construct(_data + i, _data[]);
-				}
-				std::cout << i << std::endl;
-				_size -= i;
-				return last;
+				_size -= _last - 1;
+				return _data + _first;
 			}
 
 			void swap (vector& x){
