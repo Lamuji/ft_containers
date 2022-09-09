@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/08 18:23:30 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/09 18:29:36 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,16 +386,17 @@ namespace ft
 					_alloc.construct(_data + t, _data[i + 1]);
 					i++;
 				}
-				for(; t < _size; t++)
+				for(; i < _size; i++)
 				{
-					if (t >= _size)
-					{
-						_alloc.destroy(_data + t);
-						break;
-					}
-					_alloc.construct(_data + t, _data[t + 1]);
+					// if (i >= _size)
+					// {
+					// 	_alloc.destroy(_data + t);
+					// 	break;
+					// }
+					_alloc.construct(_data + i, _data[]);
 				}
-				_size -= 3;
+				std::cout << i << std::endl;
+				_size -= i;
 				return last;
 			}
 
