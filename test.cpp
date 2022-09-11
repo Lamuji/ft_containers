@@ -8,23 +8,23 @@ using namespace std;
 
 int main() 
 {
- ft::vector<int> myvector;
+ ft::vector<char> myvector;
 
-  myvector.push_back(1);
-  myvector.push_back(2);
-  myvector.push_back(3);
-  myvector.push_back(4);
-  myvector.push_back(5);
-  myvector.push_back(6);
-  myvector.push_back(8);
-  myvector.push_back(1);
-  myvector.push_back(9);
-  myvector.push_back(10);
-  myvector.push_back(11);
+  myvector.push_back('a');
+  myvector.push_back('b');
+  myvector.push_back('c');
+  myvector.push_back('d');
+  myvector.push_back('e');
+  myvector.push_back('f');
+  myvector.push_back('j');
+  myvector.push_back('h');
+  myvector.push_back('i');
+  myvector.push_back('j');
+  myvector.push_back('k');
 
-  cout << *myvector.erase(myvector.begin() + 1, myvector.begin() + 3) << endl;
+  myvector.erase(myvector.begin() + 1, myvector.begin() + 3);
 
-  ft::vector<int>::iterator it = myvector.begin();
+  ft::vector<char>::iterator it = myvector.begin();
 
   for (; it != myvector.end(); it++)
   {

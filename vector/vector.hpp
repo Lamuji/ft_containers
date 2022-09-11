@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/09 19:14:08 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/11 17:44:14 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,6 +414,12 @@ namespace ft
 				x._capacity = tmp_capacity;
 				x._size = tmp_size;
 			}
+
+			allocator_type get_allocator() const
+			{
+				return allocator_type();
+			}
+
 
         private:
             allocator_type _alloc;
