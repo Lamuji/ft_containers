@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ramzi <ramzi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/11 17:44:14 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/12 15:49:35 by ramzi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include "../enable_if.hpp"
-#include "../is_integral.hpp"
-#include "../iterator.hpp"
-#include "../iterator_traits.hpp"
-#include "../reverse_iterator.hpp"
+#include "enable_if.hpp"
+#include "is_integral.hpp"
+#include "iterator_traits.hpp"
+#include "reverse_iterator.hpp"
 #include <memory>
 #include <stdexcept>
 
@@ -72,6 +71,50 @@ namespace ft
 				iterator &operator-=(T i) { data -= i; return *this; }
 				iterator operator[] (size_t i) {return data[i];}
 
+				T& operator*() {return *data;}
+			private:
+				T* data;
+		};
+		class const_iterator : public std::random_access_iterator_tag
+		{
+			public:
+				typedef T value_type;
+				typedef T* pointer;
+				typedef T& reference;
+				typedef std::ptrdiff_t difference_type;
+				typedef ft::random_access_iterator_tag iterator_category;
+
+				/* */
+				const_iterator(): data() {}
+				const_iterator(T* x) : data(x) {}
+				const_iterator(const iterator& rhs) : data(rhs.data) {}
+				const_iterator& operator=(const_iterator& rhs) { data = rhs.data; return *this;}
+				~const_iterator() {}
+				/* */ 
+				template <class It>
+				bool	operator==(It const & rhs) const {return (data == rhs.data);}
+				template <class It>
+				bool	operator!=(It const & rhs) const {return (data != rhs.data);}
+				template <class It>
+				bool	operator>(It const & rhs) const {return (data > rhs.data);}
+				template <class It>
+				bool	operator<(It const & rhs) const {return (data < rhs.data);}
+				template <class It>
+				bool	operator>=(It const & rhs) const {return (data >= rhs.data);}
+				template <class It>
+				bool	operator<=(It const & rhs) const {return (data <= rhs.data);}				
+				/* */
+				const_iterator& operator++() {++data;return *this;}
+				const_iterator operator++(int) {const_iterator tmp(*this); operator++(); return tmp;}
+				const_iterator& operator--() {--data;return *this;}
+				const_iterator operator--(int) {const_iterator tmp(*this); operator--(); return tmp;}
+				/* */
+				T operator-(const iterator &rhs) const { return data - rhs.data; }
+				const_iterator operator+(T i) const { return const_iterator(data + i); }
+				const_iterator operator-(T i) const { return const_iterator(data - i); }
+				const_iterator &operator+=(T i) { data += i; return *this; }
+				const_iterator &operator-=(T i) { data -= i; return *this; }
+				const_iterator operator[] (size_t i) {return data[i];}
 
 				T& operator*() {return *data;}
 			private:
@@ -122,7 +165,13 @@ namespace ft
                 _capacity = x._capacity;
             }
 
-            ~vector() { _alloc.deallocate(_data, _capacity);}
+            ~vector() { 
+				for(int i = 0; i < _size; i++){
+					std::cout << _data[i] << std::endl;
+				clear();
+				_alloc.deallocate(_data, _capacity);
+			}
+			}
 
 			/* ======END CONSTRUCTORS====== */
 			
@@ -141,6 +190,9 @@ namespace ft
                 _capacity = x._capacity;
                 return *this;
             }
+
+
+			
 			/* ======FIN OPERATOR====== */
 
             size_type size() const {return _size;}
@@ -194,14 +246,16 @@ namespace ft
                 }
             }
 
-            iterator begin(){ return iterator(_data);}
             /* ELEMENT ACCESS */
+            iterator begin(){ return iterator(_data);}
 			iterator end() { return iterator(_data + (_size));}
+
+			const_iterator begin() const { return const_iterator(_data);}
+			const_iterator end() const { return const_iterator(_data + _size);}
 
 			reverse_iterator<iterator> rbegin(){
 				return reverse_iterator<iterator>(_data + _size);
 			}
-
 			reverse_iterator<iterator> rend(){
 				return reverse_iterator<iterator>(_data);
 			}
@@ -229,18 +283,16 @@ namespace ft
 
 			reference at (size_type n)
 			{
-				if (n > _size)
+				if (n >= _size)
                     throw std::out_of_range("Element is out of range\n");
-                else
-                    return this->_data[n];
+                return _data[n];
 			}
 
 			const_reference at (size_type n) const
 			{
-				if (n > _size)
+				if (n >= _size)
                     throw std::out_of_range("Element is out of range\n");
-                else
-                    return this->_data[n];
+                return _data[n];
 			}
 
 			/* MODIFIERS */
@@ -328,7 +380,8 @@ namespace ft
 				if (count >= _capacity) {
 					reserve(_capacity + count);
 					_size = max_size;
-				} else {
+				} 
+				else {
 					while (_size != max_size) {
 						if (_size == _capacity)
 							reserve(_capacity * 2);
@@ -420,7 +473,6 @@ namespace ft
 				return allocator_type();
 			}
 
-
         private:
             allocator_type _alloc;
             pointer _data;
@@ -433,7 +485,6 @@ namespace ft
 				else
 					reserve(_size + _size);
 			}
-
 	};
 }
 
