@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/12 18:48:54 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/13 15:50:21 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ namespace ft
 				
 				iterator operator--(int) {iterator tmp(*this); operator--(); return tmp;}
 				/* */
-				T operator-(const iterator &rhs) const { return data - rhs.data; }
-				iterator operator+(T i) const { return iterator(data + i); }
-				iterator operator-(T i) const { return iterator(data - i); }
-				iterator &operator+=(T i) { data += i; return *this; }
-				iterator &operator-=(T i) { data -= i; return *this; }
-				iterator operator[] (size_t i) {return data[i];}
+				iterator operator+(difference_type i) const { return iterator(data + i); }
+				iterator operator-(difference_type i) const { return iterator(data - i); }
+				iterator &operator+=(difference_type i) { data += i; return *this; }
+				iterator &operator-=(difference_type i) { data -= i; return *this; }
+				iterator operator[] (difference_type i) {return data[i];}
 
 				T& operator*() {return *data;}
 			private:
@@ -109,12 +108,11 @@ namespace ft
 				const_iterator& operator--() {--data;return *this;}
 				const_iterator operator--(int) {const_iterator tmp(*this); operator--(); return tmp;}
 				/* */
-				T operator-(const iterator &rhs) const { return data - rhs.data; }
-				const_iterator operator+(T i) const { return const_iterator(data + i); }
-				const_iterator operator-(T i) const { return const_iterator(data - i); }
-				const_iterator &operator+=(T i) { data += i; return *this; }
-				const_iterator &operator-=(T i) { data -= i; return *this; }
-				const_iterator operator[] (size_t i) {return data[i];}
+				const_iterator operator+(difference_type i) const { return const_iterator(data + i); }
+				const_iterator operator-(difference_type i) const { return const_iterator(data - i); }
+				const_iterator &operator-=(difference_type i) { data -= i; return *this; }
+				const_iterator &operator+=(difference_type i) { data += i; return *this; }
+				const_iterator operator[] (difference_type i) {return data[i];}
 
 				T& operator*() {return *data;}
 			private:
