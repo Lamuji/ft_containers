@@ -6,7 +6,7 @@
 /*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 20:42:04 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/09 19:19:39 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/14 00:21:43 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ public:
 		_current -= n;
 		return *this;
 	}
+	difference_type operator+(const reverse_iterator &right) const {return this->data - right.data;}
+	difference_type operator-(const reverse_iterator & right) const {return this->data - right.data;}
 	reverse_iterator& operator-=( difference_type n ) {
 		_current += n;
 		return *this;
