@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/14 15:49:47 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/15 00:02:19 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
 				typedef T* pointer;
 				typedef T& reference;
 				typedef std::ptrdiff_t difference_type;
-				typedef std::random_access_iterator_tag iterator_category;
+				typedef ft::random_access_iterator_tag iterator_category;
 
 				/* */
 				iterator(): data() {}
@@ -64,13 +64,17 @@ namespace ft
 
 				iterator operator--(int) {iterator tmp(*this); operator--(); return tmp;}
 				/* */
+				pointer operator->() const {return data;};
+				
 				iterator operator+(difference_type i) const { return iterator(data + i); }
-				difference_type operator+(const iterator & right) const {return right.data + this->data;}
+				difference_type operator+(const iterator &right) const {return this->data - right.data;}
+				
 				iterator operator-(difference_type i) const { return iterator(data - i); }
 				difference_type operator-(const iterator & right) const {return this->data - right.data;}
+				
 				iterator &operator+=(difference_type i) { data += i; return *this; }
 				iterator &operator-=(difference_type i) { data -= i; return *this; }
-				reference operator[] (difference_type i) {return data[i];}
+				reference operator[] (difference_type i) const {return data[i];}
 			//	T operator-(const iterator &rhs) const { return data - rhs.data; }			
 				T& operator*() {return *data;}
 			private:
@@ -359,7 +363,7 @@ namespace ft
 				_size -= n;
 				return (first);
 			}
-
+			
 			void swap (vector& x){
 
 				T* tmp_data = this->_data;
