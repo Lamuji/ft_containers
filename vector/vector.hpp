@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:46:41 by rfkaier           #+#    #+#             */
-/*   Updated: 2022/09/14 00:25:18 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/09/14 15:49:47 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
 				typedef T* pointer;
 				typedef T& reference;
 				typedef std::ptrdiff_t difference_type;
-				typedef ft::random_access_iterator_tag iterator_category;
+				typedef std::random_access_iterator_tag iterator_category;
 
 				/* */
 				iterator(): data() {}
@@ -65,12 +65,12 @@ namespace ft
 				iterator operator--(int) {iterator tmp(*this); operator--(); return tmp;}
 				/* */
 				iterator operator+(difference_type i) const { return iterator(data + i); }
-				difference_type operator+(const iterator &right) const {return this->data - right.data;}
+				difference_type operator+(const iterator & right) const {return right.data + this->data;}
 				iterator operator-(difference_type i) const { return iterator(data - i); }
 				difference_type operator-(const iterator & right) const {return this->data - right.data;}
 				iterator &operator+=(difference_type i) { data += i; return *this; }
 				iterator &operator-=(difference_type i) { data -= i; return *this; }
-				iterator operator[] (difference_type i) {return data[i];}
+				reference operator[] (difference_type i) {return data[i];}
 			//	T operator-(const iterator &rhs) const { return data - rhs.data; }			
 				T& operator*() {return *data;}
 			private:
@@ -343,34 +343,21 @@ namespace ft
 				}
 			}
 
-			iterator erase (iterator position)
-			{
-				size_type t = position - begin();
-				iterator a = begin();
-				for(; t < _size; t++)
-				{
-					if (t == _size)
-					{
-						_alloc.destroy(_data + t);
-						break;
-					}
-					_alloc.construct(_data + t, _data[t + 1]);
-				}
-				_size -= 1;
-				return position;
-			}
+			iterator	erase (iterator position) { return (erase(position, position + 1)); }
 
-			iterator erase (iterator first, iterator last)
+			iterator	erase (iterator first, iterator last)
 			{
-				size_type _last = last - begin();
-				size_type _first = first - begin();
-				size_type t = _last;
-				for (size_type i = _first; i < _size; i++){
-					_alloc.construct(_data + i, _data[t]);
-					t++;
+				size_type	n = std::distance(first, last);
+				iterator	it;
+				for(it = first; it != last; it++)
+					_alloc.destroy(&(*it));
+				for(it = last; it != end(); it++)
+				{
+					_alloc.construct(&(*(it - n)), *it);  
+					_alloc.destroy(&(*it));
 				}
-				_size -= _last - 1;
-				return _data + _first;
+				_size -= n;
+				return (first);
 			}
 
 			void swap (vector& x){

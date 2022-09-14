@@ -1,6 +1,6 @@
 #include <iostream>
-#include "enable_if.hpp"
-#include "is_integral.hpp"
+#include "vector/enable_if.hpp"
+#include "vector/is_integral.hpp"
 #include "vector/vector.hpp"
 #include <vector>
 
@@ -8,27 +8,34 @@ using namespace std;
 
 int main() 
 {
- std::vector<char> myvector;
+ ft::vector<char> myvector;
  std::vector<char> vector;
- std::vector<char> res;
 
   vector.push_back('a');
   vector.push_back('b');
   vector.push_back('c');
   vector.push_back('d');
   vector.push_back('e');
-  myvector.push_back('f');
-  myvector.push_back('j');
-  myvector.push_back('h');
-  myvector.push_back('i');
-  myvector.push_back('j');
-  myvector.push_back('k');
 
- res = myvector + vector;
+  myvector.push_back('a');
+  myvector.push_back('b');
+  myvector.push_back('c');
+  myvector.push_back('d');
+  myvector.push_back('e');
 
-  std::vector<char>::iterator it = myvector.begin();
+  vector.erase(vector.end() - 3, vector.end() - 1);
+  myvector.erase(myvector.end() - 3, myvector.end() - 1);
 
-  for (; it != myvector.end(); it++)
+  ft::vector<char>::iterator myit = myvector.begin();
+  std::vector<char>::iterator it = vector.begin();
+
+  std::cout << "MY VECTOR ERASE\n";
+  for (; myit != myvector.end(); myit++)
+  {
+    std::cout << *myit << std::endl;
+  }
+  std::cout << "========================\n";
+  for (; it != vector.end(); it++)
   {
     std::cout << *it << std::endl;
   }
