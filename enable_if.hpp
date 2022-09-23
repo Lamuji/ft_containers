@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.cpp                                           :+:      :+:    :+:   */
+/*   enable_if.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 12:49:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/23 14:30:02 by misaev           ###   ########.fr       */
+/*   Created: 2022/09/20 13:00:11 by misaev            #+#    #+#             */
+/*   Updated: 2022/09/20 14:01:54 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.hpp"
-#include <iostream>
+#ifndef ENABLE_IF
+# define ENABLE_IF
 
-int main()
+
+namespace ft
 {
-    ft::vector<int> vtt(4,6);
-    std::cout << vtt.front() << std::endl;
-    return 0;   
+    template<bool B, class T = void>
+    struct enable_if {};
+
+    template<class T>
+    struct enable_if<true, T> { typedef T type; };
 }
+
+#endif 
