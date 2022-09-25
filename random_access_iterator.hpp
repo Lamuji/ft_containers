@@ -6,25 +6,27 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:00:04 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/23 16:29:24 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/25 18:06:58 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "iterator_traits.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {
 /* =========================DEBUT ITERATOR========================= */
 	template< class T>
-	class random_access_iterator : public std::random_access_iterator_tag
+	class random_access_iterator
 	{
 		public:
 
 			typedef typename ft::iterator_traits<T*>::value_type value_type;
 			typedef typename ft::iterator_traits<T*>::pointer pointer;
 			typedef typename ft::iterator_traits<T*>::reference reference;
+			typedef typename std::random_access_iterator_tag iterator_category;
 			typedef std::ptrdiff_t difference_type;
 
 			/* */

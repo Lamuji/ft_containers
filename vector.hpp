@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:48:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/23 17:47:29 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/25 21:01:53 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ namespace ft
 			typedef typename ft::random_access_iterator<const T> const_iterator;
 			typedef typename ft::reverse_iterator<iterator> reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
 
 			
             /* ======CONSTRUCTORS====== */
@@ -90,13 +91,20 @@ namespace ft
 
 
 			/* ======FIN OPERATOR====== */
+			template<class InputIterator>  
+			typename ft::iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last)
+			{
+				size_type n = 0;
+				for (; first != last; first++){
+					n++;
+				};
+				return n;
+			}
 
             size_type size() const {return _size;}
 
             size_type max_size() const{  return _alloc.max_size();}
 
-            // _alloc.destroy et _alloc.construct modifie la _size
-            // _alloc.allocate et _alloc.deallocate modifie la _capacity
             void resize (size_type n, value_type val = value_type())
             {
                 if (n < _size){
@@ -152,21 +160,25 @@ namespace ft
 			const_iterator begin() const { return const_iterator(_data);}
 			const_iterator end() const { return const_iterator(_data + _size);}
 
-			// reverse_iterator rbegin(){
-			// 	return reverse_iterator(_data + _size);
-			// }
-			// reverse_iterator rend(){
-			// 	return reverse_iterator(_data);
+			reverse_iterator rbegin()
+			{
+				return reverse_iterator(_data + _size);
+			}
+			reverse_iterator rend()
+			{
+				return reverse_iterator(_data);
+			}
+
+			// const_reverse_iterator rbegin() 
+			// {
+			// 	return const_reverse_iterator(_data + _size);
 			// }
 
-			// const_reverse_iterator<iterator> rbegin() const {
-			// 	return reverse_iterator<iterator>(_data + _size);
+			// const_reverse_iterator rend()  
+			// {
+			// 	return const_reverse_iterator(_data);
 			// }
-
-			// const_reverse_iterator<iterator> rend() const {
-			// 	return reverse_iterator<iterator>(_data);
-			// }
-
+			
             reference operator[] (size_type n) {return this->_data[n];}
 			const_reference	operator[](size_type n) const { return(_data[n]); }
 
@@ -205,7 +217,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = false)
 			{
 				size_type	n = 0;
-				n = std::distance(first, last);
+				n = distance(first, last);
 
 				clear();
 				reserve(n);
@@ -278,7 +290,7 @@ namespace ft
 
 			iterator insert (iterator position, const value_type& val)
 			{
-				size_type i = std::distance(begin(), position);
+				size_type i = position - begin();
 				insert(position, 1, val);
 
 				return begin() + i;
@@ -335,6 +347,14 @@ namespace ft
 			{
 				return allocator_type();
 			}
+			value_type* data()
+			{
+				return this->_data;
+			}
+			const value_type* data() const
+			{
+				return this->_data;
+			}
 
         private:
             pointer _data;
@@ -349,8 +369,36 @@ namespace ft
 					reserve(_size + _size);
 			}
 	};
-
-
+	template <class T, class Alloc>  
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() == rhs.data();
+	}
+	template <class T, class Alloc>  
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() != rhs.data();
+	}
+	template <class T, class Alloc>  
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() < rhs.data();
+	}
+	template <class T, class Alloc>  
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() <= rhs.data();
+	}
+	template <class T, class Alloc>  
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() > rhs.data();
+	}
+	template <class T, class Alloc>  
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return lhs.data() >= rhs.data();
+	}
 }
 
 #endif
