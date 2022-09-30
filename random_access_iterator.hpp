@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:00:04 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/25 18:06:58 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/30 18:44:59 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,39 @@ namespace ft
 	{
 		public:
 
-			typedef typename ft::iterator_traits<T*>::value_type value_type;
-			typedef typename ft::iterator_traits<T*>::pointer pointer;
-			typedef typename ft::iterator_traits<T*>::reference reference;
-			typedef typename std::random_access_iterator_tag iterator_category;
-			typedef std::ptrdiff_t difference_type;
+			typedef T	value_type;
+			typedef ptrdiff_t	difference_type;
+			typedef T	* pointer;
+			typedef T	& reference;
+			typedef std::random_access_iterator_tag	iterator_category;
 
 			/* */
-			random_access_iterator(): data() {}
+			random_access_iterator(): data(NULL) {}
 			random_access_iterator(T* x) : data(x) {}
-			random_access_iterator(const random_access_iterator& rhs) : data(rhs.data) {}
-			random_access_iterator& operator=(const random_access_iterator& rhs) { data = rhs.data; return *this;}
-			operator random_access_iterator<const T>() const { return this->data;}			
+			random_access_iterator(random_access_iterator const & rhs) { *this = rhs; }
+			random_access_iterator const & operator=(random_access_iterator const & rhs) {if (this != &rhs){data = rhs.data;} return (*this);}
+			virtual ~random_access_iterator() {}
+
 			pointer base() const {return data;}
-			~random_access_iterator() {}
-			random_access_iterator& operator++() {++data;return *this;}
+			operator random_access_iterator<const T>() const {random_access_iterator<const T> temp(this->data); return (temp);}			
+			
+			random_access_iterator& operator++() {data++;return *this;}
+			random_access_iterator operator++(int) {random_access_iterator tmp = *this; ++this->data; return tmp;}
+			random_access_iterator& operator--() {data--;return *this;}
+			random_access_iterator operator--(int) {random_access_iterator tmp = *this; --this->data; return tmp;}
 
-			random_access_iterator operator++(int) {random_access_iterator tmp(*this); operator++(); return tmp;}
 
-			random_access_iterator& operator--() {--data;return *this;}
-
-			random_access_iterator operator--(int) {random_access_iterator tmp(*this); operator--(); return tmp;}
 			/* */
 			pointer operator->() const {return data;}
-			
-			random_access_iterator operator+(const difference_type & i) const { return this->data + i; }
-			difference_type operator+(const random_access_iterator &right) const {return this->data + right.data;}
-			
-			random_access_iterator operator-(const difference_type & i) const { return this->data - i; }
-			difference_type operator-(const random_access_iterator & right) const {return this->data - right.data;}
-			
-			random_access_iterator &operator+=(difference_type i) { data += i; return *this; }
-			random_access_iterator &operator-=(difference_type i) { data -= i; return *this; }
 			reference operator[] (difference_type i) const {return data[i];}
 			reference operator*() {return *data;}
+			
+			random_access_iterator operator+(const difference_type & i) const { return random_access_iterator(this->data + i); }
+			difference_type operator+(const random_access_iterator &right) const {return this->data + right.data;}
+			random_access_iterator operator-(const difference_type & i) const { return random_access_iterator(this->data - i); }
+			difference_type operator-(const random_access_iterator & right) const {return this->data - right.data;}
+			random_access_iterator &operator+=(difference_type i) { data += i; return *this; }
+			random_access_iterator &operator-=(difference_type i) { data -= i; return *this; }
 		protected:
 			pointer data;
 	};

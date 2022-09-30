@@ -6,16 +6,14 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:49:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/23 14:30:02 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/27 22:19:16 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
+#include "reverse_iterator.hpp"
 #include <iostream>
 
 int main()
 {
-    ft::vector<int> vtt(4,6);
-    std::cout << vtt.front() << std::endl;
-    return 0;   
 }
