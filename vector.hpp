@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:48:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/30 18:04:41 by misaev           ###   ########.fr       */
+/*   Updated: 2022/09/30 20:13:34 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ namespace ft
    				assign(first, last);
             }
 
-             vector (const vector& x)
+			vector (const vector& x)
 			 {
 				 this->_size = x._size;
                 this->_capacity = x._capacity;
@@ -67,7 +67,14 @@ namespace ft
 			    for (size_type i = 0; i < x.size(); i++)
 				    _data[i] = x._data[i];
 			 }
-
+            vector& operator= (const vector& x)
+            {
+                _data = x._data;
+                _alloc = x._alloc;
+                _size = x._size;
+                _capacity = x._capacity;
+                return *this;
+            }
             ~vector() {}
 
 
@@ -80,17 +87,8 @@ namespace ft
 			bool operator<= (const vector<T,allocator_type>& rhs) {return (_data <= rhs._data);};
 			bool operator>  (const vector<T,allocator_type>& rhs) {return (_data > rhs._data);};
 			bool operator>= (const vector<T,allocator_type>& rhs) {return (_data >= rhs._data);};
-            vector& operator= (const vector& x)
-            {
-                _data = x._data;
-                _alloc = x._alloc;
-                _size = x._size;
-                _capacity = x._capacity;
-                return *this;
-            }
-
-
 			/* ======FIN OPERATOR====== */
+
 			template<class InputIterator>  
 			typename ft::iterator_traits<InputIterator>::difference_type distance (InputIterator first, InputIterator last)
 			{
