@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:48:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/30 20:13:34 by misaev           ###   ########.fr       */
+/*   Updated: 2022/10/05 15:24:57 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "is_integral.hpp"
 #include "random_access_iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 #include <memory>
 #include <stdexcept>
@@ -383,7 +385,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
 	{
-		return ((lhs.size() == rhs.size()) && std::equal(lhs.begin(), lhs.end(), rhs.begin())); 
+		return ((lhs.size() == rhs.size()) && ft::equal(lhs.begin(), lhs.end(), rhs.begin())); 
 	}
 	template <class T, class Alloc>
 	bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) 
@@ -393,7 +395,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<  (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
 	{
-		return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 	template <class T, class Alloc>
 	bool operator<= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
