@@ -6,11 +6,13 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 12:17:58 by misaev            #+#    #+#             */
-/*   Updated: 2022/10/05 14:37:54 by misaev           ###   ########.fr       */
+/*   Updated: 2022/10/13 17:00:32 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
+
+#pragma once
 
 namespace ft
 {
@@ -24,20 +26,23 @@ namespace ft
             typedef typename Container::reference reference;
             typedef typename Container::const_reference const_reference;
             /*=========================*/
-            stack() : c() { }
-            stack( const Container& other )
-            {
-                c = other;
-            }
-            ~stack(){}
+           stack( const Container& cont = Container() )
+           {
+               c = cont;
+           }
+           stack( const stack& other )
+           {
+               c = other.c;
+           }
+           ~stack(){}
             /*=========================*/
             reference top()
             {
-                return c.front();
+                return c.back();
             }
             const_reference top() const
             {
-                return c.front();
+                return c.back();
             }
             bool empty() const
             {
@@ -49,48 +54,55 @@ namespace ft
             }
             void pop()
             {
-                c.erase(c.begin());
+                c.pop_back();
             }
             void push(const value_type & value)
             {
-                c.insert(c.begin(), value);
+                c.push_back(value);
             }
-        private:
+        protected:
             Container c;
-        
+            template< class A, class B >
+            friend bool operator==( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+            template< class A, class B >
+            friend bool operator!=( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+            template< class A, class B >
+            friend bool operator<( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+            template< class A, class B >
+            friend bool operator<=( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+            template< class A, class B >
+            friend bool operator>( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+            template< class A, class B >
+            friend bool operator>=( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
     };
-
     template< class T, class Container >
     bool operator==( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() == rhs.top();
+        return lhs.c == rhs.c;
     }
     template< class T, class Container >
     bool operator!=( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() != rhs.top();
+        return lhs.c != rhs.c;
     }
     template< class T, class Container >
     bool operator<( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() < rhs.top();
+        return lhs.c < rhs.c;
     }
     template< class T, class Container >
     bool operator<=( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() <= rhs.top();
+        return lhs.c <= rhs.c;
     }
     template< class T, class Container >
     bool operator>( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() <= rhs.top();
+        return lhs.c > rhs.c;
     }
     template< class T, class Container >
     bool operator>=( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )
     {
-        return lhs.top() <= rhs.top();
+        return lhs.c >= rhs.c;
     }
 } // namespace ft
-
-
-

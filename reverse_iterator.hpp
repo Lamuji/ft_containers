@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:48:34 by misaev            #+#    #+#             */
-/*   Updated: 2022/10/04 11:07:15 by misaev           ###   ########.fr       */
+/*   Updated: 2022/10/05 17:43:46 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
             /*OVERLOADS*/
             
             template < template < class > class It , class T>
-            operator reverse_iterator< It<const T> >() const {reverse_iterator< It<const T> > temp(data); return (temp);}			
+            operator reverse_iterator< It<const T> >() const {reverse_iterator< It<const T> > temp(data); return (temp);}
             
             reference operator*() const
             {
