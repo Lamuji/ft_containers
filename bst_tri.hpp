@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bst_tri.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 10:49:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/10/17 18:26:38 by misaev           ###   ########.fr       */
+/*   Updated: 2022/10/17 20:36:57 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,18 @@ namespace ft
     {
         public:
             typedef T value_type;
+            
+            node(T item)
+            {
+                this->key = item;
+                this->left = NULL;
+                this->right = NULL;
+            }
+            ~node(){}
         private:
             T key;
-            
+            node<T> *left;
+            node<T> *right;       
     }
 };
 
