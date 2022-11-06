@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:00:08 by misaev            #+#    #+#             */
-/*   Updated: 2022/09/30 20:27:05 by misaev           ###   ########.fr       */
+/*   Updated: 2022/10/25 18:16:43 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define ITERATOR_TRAITS_HPP
 
 
+#include <iterator>
 #include <cstddef> // ptrdiff_t
 
 
