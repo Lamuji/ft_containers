@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 10:49:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/06 16:54:49 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:57:18 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ namespace ft
     ft::node<T> *temp = new ft::node<T>;
     temp->key = item;
     if (parent != NULL)
+    {
+      temp->parent = new ft::node<T>;
       temp->parent = parent;
+    }
     else
       temp->parent = NULL;
     temp->left = temp->right = NULL;
@@ -32,19 +35,16 @@ namespace ft
   }
   /*----------------------*/
   template<class T>
-  ft::node<T> *insertNode(ft::node<T> *node,ft::node<T> *parent, int key) 
+  ft::node<T> *insertNode(ft::node<T> *node,ft::node<T> *parent,  int key) 
   {
     // Return a new node if the tree is empty
     if (node == NULL) return newNode<T>(key, parent);
 
     // Traverse to the right place and insertNode the node
     if (key < node->key)
-    {
       node->left = insertNode(node->left, node, key);      
-    }
     else
-      node->right = insertNode(node->right,node, key);
-
+      node->right = insertNode(node->right, node,  key);
     return node;
   }
   /*----------------------*/
@@ -56,7 +56,10 @@ namespace ft
 
       // Traverse root
       std::cout << root->key << " -> ";
-
+      if (root->parent == NULL)
+        std::cout << " [ NULL ] "  << std::endl;
+      else
+        std::cout << " [ " << root->parent->key << " ] "  << std::endl;
       // Traverse right
       inorder(root->right);
     }

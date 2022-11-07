@@ -6,15 +6,14 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 17:09:29 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/03 17:58:24 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/07 15:22:49 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include "reverse_iterator.hpp"
-#include "bidirectional_iterator.hpp"
+// #include "bidirectional_iterator.hpp"
 #include "bst_tri.hpp"
-#include "node.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
 #include <functional>
@@ -54,12 +53,12 @@ namespace ft
             typedef typename Allocator::pointer pointer;   
             typedef typename Allocator::const_pointer   const_pointer;
             
-            typedef typename ft::bidirectional_iterator<value_type> iterator;
-            typedef typename ft::bidirectional_iterator<const value_type>   const_iterator;
+            typedef typename ft::random_access_iterator<value_type> iterator;
+            typedef typename ft::random_access_iterator<const value_type>   const_iterator;
 
             typedef typename ft::reverse_iterator<iterator>    reverse_iterator;
             typedef typename ft::reverse_iterator<const_iterator>  const_reverse_iterator;
-            typedef typename ft::node<T> Node;
+            typedef typename ft::node<T> *Node;
 
             map (const key_compare& compare = key_compare(), const allocator_type& alloc = allocator_type()) : root(nullptr), _comp(compare), _size(0), _alloc(alloc) {}
             
@@ -182,23 +181,7 @@ namespace ft
 
             ft::pair<iterator,bool> insert (const value_type& val)
             {
-                // Return a new node if the tree is empty
-                if (root == nullptr) 
-                    return newNode(val);
-                if (find(val.first) != nullptr)
-                    return ft::make_pair<iterator(root), false>;
-                // Traverse to the right place and insert the node
-                if (val.first < root->key)
-                {
-                    root->left = insert(root->left, val);
-                    this->_size++;
-                }
-                else
-                {
-                    root->right = insert(root->right, val);
-                    this->_size++;
-                }
-                return ft::make_pair<iterator(root), true>;
+                
             }
             
             void erase (iterator position)

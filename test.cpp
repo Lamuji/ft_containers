@@ -6,36 +6,54 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:49:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/06 16:52:13 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/07 13:59:43 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "map.hpp"
-#include "bst_tri.hpp"
+#include "map.hpp"
 #include <iostream>
 
-// Binary Search Tree operations in C++
-// Driver code
-int main() {
-  ft::node<int> *root = NULL;
-  ft::node<int> *tmp = NULL;
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
-  root = insertNode(root,tmp, 8);
-  root = insertNode(root,tmp, 3);
-  root = insertNode(root,tmp, 1);
-  root = insertNode(root,tmp, 6);
-  root = insertNode(root,tmp, 7);
-  root = insertNode(root,tmp, 10);
-  root = insertNode(root,tmp, 14);
-  root = insertNode(root,tmp, 4);
+struct classcomp {
+  bool operator() (const char& lhs, const char& rhs) const
+  {return lhs<rhs;}
+};
 
-//   std::cout << "Inorder traversal: ";
-  // inorder(root);
-//   std::cout << "\nAfter deleting 10\n";
-//   root = deleteNode(root, 6);
-//   std::cout << "Inorder traversal: ";
-  inorder(root);
-  // std::cout << predecessor(root)->key;
 
+int main()
+{
+  ft::map<char,int> first;
+
+  first['a'] = 10;
+  first['b'] = 30;
+  first['c'] = 50;
+  first['d'] = 70;
+
+  ft::map<char,int> second (first.begin(),first.end());
+
+  ft::map<char,int> third (second);
+
+  ft::map<char,int,classcomp> fourth;                 // class as Compare
+
+  bool(*fn_pt)(char,char) = fncomp;
+  ft::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+
+  return 0;
 }
+
+// int main() {
+//   ft::node<int> *root = NULL;
+//   ft::node<int> *tmp = NULL;
+//   root = insertNode(root,tmp, 8);
+//   root = insertNode(root,root->parent, 3);
+//   root = insertNode(root,root->parent, 1);
+//   root = insertNode(root,root->parent, 6);
+//   root = insertNode(root,root->parent, 7);
+//   root = insertNode(root,root->parent, 10);
+//   root = insertNode(root,root->parent, 14);
+//   root = insertNode(root,root->parent, 4);
+
+//   inorder(root);
+// }
 
