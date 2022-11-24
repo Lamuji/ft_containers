@@ -3,23 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:34:05 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/21 21:27:10 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/24 22:59:36 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bst_tri.hpp"
 #include <cstdlib>
+#include <alloca.h>
+#include <memory>
+#include "bidirectional_iterator.hpp"
+#include "pair.hpp"
 
 namespace ft
 {
-    template<class T>
+    template<class Key,class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
     class map
     {
         public:
-            typedef typename ft::node<T>* node_type;
+			typedef Key									key_type;
+			typedef T									mapped_type;
+			typedef typename ft::pair<const Key, T> 	value_type;
+			typedef typename std::size_t				size_type;
+			typedef typename std::ptrdiff_t				difference_type;
+			typedef Compare								key_compare;
+			typedef Allocator							allocator_type;
+			typedef value_type&							reference;
+			typedef const value_type&					const_reference;
+			typedef typename Allocator::pointer			pointer;
+			typedef typename Allocator::const_pointer	const_pointer;
+            typedef typename ft::node<T>* 				node_type;	
+			typedef bidirectional_iterator<T>			iterator;
+			typedef bidirectional_iterator<const T>		const_iterator;
+			// typedef reverse_iterator<iterator>			reverse_iterator;
+			// typedef reverse_iterator<const_iterator>	const_reverse_iterator;
+			
             map()
             {
                 _tree = NULL;
@@ -31,17 +51,74 @@ namespace ft
                 _tree = insertNode(_tree, _tree, key);
                 _size++;
             }
-            void insert(T key)
-            {
-                if (_size <= 1)
-                    this->_tree = insertNode(_tree, _tree, key);
-                else
-                    this->_tree = insertNode(_tree, _tree->parent, key);
-            }
-            void erase(T key)
-            {
-                _tree = ft::deleteNode(_tree, key);
-            }
+			iterator begin()
+			{
+				return iterator(_tree);
+			}
+			iterator end()
+			{
+				return iterator(_tree);
+			}
+			const_iterator begin() const
+			{
+				return const_iterator(_tree);
+			}
+			const_iterator end() const
+			{
+				return const_iterator(_tree);
+			}
+			// reverse_iterator rbegin()
+			// {
+			// 	return reverse_iterator(_tree);
+			// }
+			// reverse_iterator rend()
+			// {
+			// 	return reverse_iterator(_tree);
+			// }
+			// const_reverse_iterator rbegin() const
+			// {
+			// 	return const_reverse_iterator(_tree);
+			// }
+			// const_reverse_iterator rend() const
+			// {
+			// 	return const_reverse_iterator(_tree);
+			// }
+			bool empty() const
+			{
+				return (_size == 0);
+			}
+			size_type size() const
+			{
+				return _size;
+			}
+			size_type max_size() const
+			{
+				return std::numeric_limits<size_type>::max();
+			}
+			mapped_type& operator[](const key_type& k)
+			{
+				return (insert(ft::make_pair(k, mapped_type())).first->second);
+			}
+			ft::pair<iterator,bool> insert (const value_type& val)
+			{
+				if (_size <= 1)
+					this->_tree = insertNode(_tree, _tree, val);
+				else
+					this->_tree = insertNode(_tree, _tree->parent, val);
+				return ft::make_pair(iterator(_tree), true);
+			}
+			iterator insert (iterator position, const value_type& val)
+			{
+				if (_size <= 1)
+					this->_tree = insertNode(_tree, _tree, val);
+				else
+					this->_tree = insertNode(_tree, _tree->parent, val);
+				return iterator(_tree);
+			}
+			iterator erase (iterator position){
+				_tree = deleteNode(_tree, position->first);
+				return iterator(_tree);
+			}
             void printNode()
             {
                 ft::inorder(_tree);
@@ -80,19 +157,7 @@ namespace ft
                     temp->left = temp->right = NULL;
                 return temp;
             }
-            /**/
-
-            void	manager(void *ptr)
-            {
-                static t_node	*heap = NULL;
-                t_node			*new;
-
-                else
-                {
-                new = ft_lstnew(ptr);
-                ft_lstadd_back(&heap, new);
-                }
-            }
+			/**/
             node_type _tree;
             size_t _size;
     };

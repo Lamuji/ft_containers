@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bidirectional_iterator.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 18:01:42 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/03 18:36:38 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/24 22:39:45 by rfkaier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ namespace ft
 			bidirectional_iterator & operator--() {_data--;return *this;}
 			bidirectional_iterator operator--(int) {bidirectional_iterator tmp = *this; --this->_data; return tmp;}
 			template <class It>
-			bool	operator==(It const & rhs) const {return (current->data == &(*rhs));}
+			bool	operator==(It const & rhs) const {return (_data == &(*rhs));}
 			template <class It>
-			bool	operator!=(It const & rhs) const {return (current->data != &(*rhs));}
+			bool	operator!=(It const & rhs) const {return (_data != &(*rhs));}
 			pointer operator->() const {return _data;}
 			reference operator*() {return *_data;}
             /**/
