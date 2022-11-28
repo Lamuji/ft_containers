@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 17:16:22 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/21 21:28:20 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/28 16:50:03 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace ft
     template<class T>
     struct node
     {
-        T key;
+        T *key;
         node *parent, *left, *right;
     };
     template<class T>

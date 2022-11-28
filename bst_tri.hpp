@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bst_tri.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 10:49:10 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/24 22:37:56 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/11/28 16:53:43 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ namespace ft
       /* code */
       if (node != NULL)
       {
-        std::cout << temp->key;
-        temp = temp->left;
-        std::cout << temp->key;
-        temp = temp->right;      
+        std::cout << node->parent->key;
       }
     return temp;
   }
@@ -77,13 +74,13 @@ namespace ft
   bool findValue(ft::node<T> *node, T key) 
   {
     ft::node<T> *temp = node;
-    while (temp != NULL && key != temp->key)
+    while (temp != NULL && &key != temp->key)
     {
-      if (key == temp->key)
+      if (&key == temp->key)
         return true;
-      if (key > temp->key)
+      if (&key > temp->key)
         temp = temp->right;
-      else if (key < temp->key)
+      else if (&key < temp->key)
         temp = temp->left;
     }
     return false;

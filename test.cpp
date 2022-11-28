@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   test.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfkaier <rfkaier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:49:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/24 22:55:12 by rfkaier          ###   ########.fr       */
+/*   Updated: 2022/11/28 20:09:58 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.hpp"
+#include <iterator>
+#include <map>
 
 // int main() 
 // {
@@ -32,16 +34,16 @@
 int main()
 {
   ft::map<int, int> root; 
-  root.insert(ft::make_pair(8, 8));
-  root.insert(ft::make_pair(3, 3));
-  root.insert(ft::make_pair(1, 1));
-  root.insert(ft::make_pair(6, 6));
-  root.insert(ft::make_pair(7, 7));
-  root.insert(ft::make_pair(10, 10));
-  root.insert(ft::make_pair(14, 14));
-  root.insert(ft::make_pair(4, 4));
-  root.insert(ft::make_pair(13, 13));
-  root.insert(ft::make_pair(15, 15));
+  root.insert(8);
+  root.insert(3);
+  root.insert(1);
+  root.insert(6);
+  root.insert(7);
+  root.insert(10);
+  root.insert(14);
+  root.insert(4);
+  root.insert(13);
+  root.insert(15);
 
 
 //   root.erase(8);
@@ -52,8 +54,11 @@ int main()
   
   // TODO Faire une fonction qui supprime tous l arbre sans leaks.
    
-
+  
   // root.clear();
-  root.printNode();
-  while(1);
+  // root.printNode();
+  // ft::map<int, int>::iterator it = root.begin();
+
+  std::cout << *root.begin() + 4;
+  // while(1);
 }
