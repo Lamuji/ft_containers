@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:42:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/30 22:49:01 by misaev           ###   ########.fr       */
+/*   Updated: 2022/12/01 00:06:33 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,30 @@ namespace	ft
 			typedef T	* pointer;
 			typedef T	& reference;
 			typedef ft::bidirectional_iterator_tag	iterator_category;
-
-		private :
-
 			typedef bidirectional_iterator	iterator;
-			typedef	Node<value_type> *	NodePtr;
-
-			NodePtr	current;
-			NodePtr	max;
-			NodePtr	TNULL;	
-
-		public :
+			typedef	Node<value_type> *	node_type;
 
 			/* Lifecyle */
 
-			bidirectional_iterator(void) : current(NULL), max(NULL), TNULL(NULL) {}
-			bidirectional_iterator(NodePtr current, NodePtr max, NodePtr TNULL) : current(current), max(max), TNULL(TNULL) {}
+			bidirectional_iterator(void) : current(NULL), maximum(NULL), TNULL(NULL) {}
+			bidirectional_iterator(node_type current, node_type maximum, node_type TNULL) : current(current), maximum(maximum), TNULL(TNULL) {}
 			bidirectional_iterator(iterator const & src) { *this = src; }
 			virtual ~bidirectional_iterator() {}
 
-			iterator const & operator=(iterator const & rhs) {if (this != &rhs) {current = rhs.current; max = rhs.max; TNULL = rhs.TNULL;} return (*this);}
+			iterator const & operator=(iterator const & rhs) {if (this != &rhs) {current = rhs.current; maximum = rhs.maximum; TNULL = rhs.TNULL;} return (*this);}
 			
 			operator bidirectional_iterator<const T>() const
 			{
-				bidirectional_iterator<const T> temp(reinterpret_cast<Node<const T> *>(current), reinterpret_cast<Node<const T> *>(max), reinterpret_cast<Node<const T> *>(TNULL));
+				bidirectional_iterator<const T> temp(reinterpret_cast<Node<const T> *>(current), reinterpret_cast<Node<const T> *>(maximum), reinterpret_cast<Node<const T> *>(TNULL));
 				return (temp);
 			}			
 
 			reference	operator*() const {return (*current->data);}
 			pointer		operator->() const {return (current->data);}
 
-			iterator	& operator++() {current = successor(current); return (*this);}
+			iterator	& operator++() {current = next(current); return (*this);}
 			iterator	operator++(int) { iterator tmp(*this); ++*this; return (tmp);}
-			iterator	& operator--() {current = predecessor(current); return (*this);}
+			iterator	& operator--() {current = previous(current); return (*this);}
 			iterator	operator--(int) {iterator tmp(*this); --*this; return (tmp);}
 
 			
@@ -75,29 +66,32 @@ namespace	ft
 			bool	operator!=(It const & rhs) const {return (current->data != &(*rhs));}
 
 		private :
+			node_type	current;
+			node_type	maximum;
+			node_type	TNULL;	
 
-			NodePtr	minimum(NodePtr node)
+			node_type	min(node_type node)
 			{
 				while (node->left != TNULL)
 					node = node->left;
 				return (node);
 			}
 
-			NodePtr	maximum(NodePtr node)
+			node_type	max(node_type node)
 			{
 				while (node->right != TNULL)
 					node = node->right;
 				return (node);
 			}
 
-			NodePtr	successor(NodePtr x)
+			node_type	next(node_type x)
 			{
-				if (x == max)
+				if (x == maximum)
 					return (TNULL);
 				if (x->right != TNULL)
-					return (minimum(x->right));
+					return (min(x->right));
 
-				NodePtr	y = x->parent;
+				node_type	y = x->parent;
 				while (y != TNULL && x == y->right)
 				{
 					x = y;
@@ -106,14 +100,14 @@ namespace	ft
 				return (y);
 			}
 
-			NodePtr	predecessor(NodePtr x)
+			node_type	previous(node_type x)
 			{
 				if (x == TNULL)
-					return (max);
+					return (maximum);
 				if (x->left != TNULL)
-					return (maximum(x->left));
+					return (max(x->left));
 
-				NodePtr	y = x->parent;
+				node_type	y = x->parent;
 				while (y != TNULL && x == y->left)
 				{
 					x = y;
