@@ -6,13 +6,11 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:49:06 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/28 20:09:58 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:19:20 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.hpp"
-#include <iterator>
-#include <map>
 
 // int main() 
 // {
@@ -59,6 +57,6 @@ int main()
   // root.printNode();
   // ft::map<int, int>::iterator it = root.begin();
 
-  std::cout << *root.begin() + 4;
+  std::cout << *root.begin();
   // while(1);
 }

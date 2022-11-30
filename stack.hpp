@@ -6,7 +6,7 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 12:17:58 by misaev            #+#    #+#             */
-/*   Updated: 2022/10/13 17:00:32 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/30 23:44:10 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ namespace ft
             typedef typename Container::reference reference;
             typedef typename Container::const_reference const_reference;
             /*=========================*/
-           stack( const Container& cont = Container() )
-           {
-               c = cont;
-           }
+           explicit stack( const container_type & cont = Container() ) : c(cont){}
            stack( const stack& other )
            {
                c = other.c;
@@ -44,24 +41,22 @@ namespace ft
             {
                 return c.back();
             }
-            bool empty() const
+            bool empty() const //
             {
                 return c.empty();
             }
-            size_type size() const
+            size_type size() const //
             {
                 return c.size();
             }
-            void pop()
+            void pop() //
             {
                 c.pop_back();
             }
-            void push(const value_type & value)
+            void push(const value_type & value) //
             {
                 c.push_back(value);
             }
-        protected:
-            Container c;
             template< class A, class B >
             friend bool operator==( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
             template< class A, class B >
@@ -74,6 +69,8 @@ namespace ft
             friend bool operator>( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
             template< class A, class B >
             friend bool operator>=( const ft::stack<A,B>& lhs, const ft::stack<A,B>& rhs );
+        protected:
+            container_type c;
     };
     template< class T, class Container >
     bool operator==( const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs )

@@ -6,14 +6,13 @@
 /*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:48:34 by misaev            #+#    #+#             */
-/*   Updated: 2022/10/25 17:58:52 by misaev           ###   ########.fr       */
+/*   Updated: 2022/11/30 21:53:10 by misaev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REVERSE_ITERATOR
 # define REVERSE_ITERATOR
 
-#include "random_access_iterator.hpp"
 #include "iterator_traits.hpp"
 
 namespace ft
@@ -146,10 +145,8 @@ namespace ft
     {
         return (reverse_iterator<Iterator>(rev_it.base() - n));
     }
-    template <class A, class B>  
-    typename reverse_iterator<A>::difference_type operator- (const reverse_iterator<A>& lhs,const reverse_iterator<B>& rhs)
-    {
-        return rhs.base() - lhs.base();
-    }
+  template <class L, class R>
+	typename reverse_iterator<L>::difference_type	operator-(reverse_iterator<L> const & lhs, reverse_iterator<R> const & rhs)
+		{ return (rhs.base() - lhs.base()); }
 }
 #endif
