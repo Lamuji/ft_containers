@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 16:34:05 by misaev            #+#    #+#             */
-/*   Updated: 2022/12/01 00:05:19 by misaev           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:23:01 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,6 @@ namespace	ft
 			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			typedef typename allocator_type::difference_type	difference_type;
 			typedef typename allocator_type::size_type	size_type;
-
-		private :
-
-			key_compare	compare;
-			allocator_type	alloc;
-			size_type	_size;
-
-			typedef Node<const value_type>	* const_Node;
-			typedef Node<value_type>	Node;
-			typedef	Node	* NodePtr;
-			std::allocator<Node>	allocNode;
-			NodePtr	root;
-			NodePtr	TNULL;	
-
-		public :
 
 			explicit map(const key_compare & comp = key_compare(), const allocator_type & alloc = allocator_type()) : compare(comp), alloc(alloc), _size(0)
 			{
@@ -157,8 +142,8 @@ namespace	ft
 
 			ft::pair<iterator, bool>	insert(const value_type & val)
 			{
-				NodePtr	node;
-				if ((node = searchTree(root, val.first)) != TNULL)
+				node_type	node;
+				if ((node = search_tree(root, val.first)) != TNULL)
 					return (ft::pair<iterator, bool>(iterator(node, maximum(root), TNULL), false));
 
 
@@ -170,8 +155,8 @@ namespace	ft
 				node->right = TNULL;
 				node->color = 1;
 
-				NodePtr	y = nullptr;
-				NodePtr	x = this->root;
+				node_type	y = nullptr;
+				node_type	x = this->root;
 
 				while (x != TNULL)
 				{
@@ -200,8 +185,8 @@ namespace	ft
 				if (node->parent->parent == nullptr)
 					return (ft::pair<iterator, bool>(iterator(node, maximum(root), TNULL), true));
 
-				insertFix(node);
-				return (ft::pair<iterator, bool>(iterator(searchTree(root, val.first), maximum(root), TNULL), true));
+				insert_fix(node);
+				return (ft::pair<iterator, bool>(iterator(search_tree(root, val.first), maximum(root), TNULL), true));
 			}
 
 			iterator	insert(iterator position, const value_type & val)
@@ -225,10 +210,10 @@ namespace	ft
 
 			size_type	erase(const key_type & key)
 			{
-				NodePtr	node = this->root;
-				NodePtr	z = TNULL;
-				NodePtr	x;
-				NodePtr	y;
+				node_type	node = this->root;
+				node_type	z = TNULL;
+				node_type	x;
+				node_type	y;
 				while (node != TNULL)
 				{
 					if (node->data->first == key)
@@ -242,18 +227,17 @@ namespace	ft
 				if (z == TNULL)
 					return(0);
 
-				// normal BST deletion
 				y = z;
 				int	y_original_color = y->color;
 				if (z->left == TNULL)
 				{
 					x = z->right;
-					rbTransplant(z, z->right);
+					rb_transplamt(z, z->right);
 				}
 				else if (z->right == TNULL)
 				{
 					x = z->left;
-					rbTransplant(z, z->left);
+					rb_transplamt(z, z->left);
 				}
 				else
 				{
@@ -264,12 +248,12 @@ namespace	ft
 						x->parent = y;
 					else
 					{
-						rbTransplant(y, y->right);
+						rb_transplamt(y, y->right);
 						y->right = z->right;
 						y->right->parent = y;
 					}
 
-					rbTransplant(z, y);
+					rb_transplamt(z, y);
 					y->left = z->left;
 					y->left->parent = y;
 					y->color = z->color;
@@ -278,7 +262,7 @@ namespace	ft
 				alloc.deallocate(z->data, 1);
 				allocNode.deallocate(z, 1);
 				if (y_original_color == 0)
-					deleteFix(x);
+					delete_fix(x);
 				_size--;
 				return (1);
 			}
@@ -292,8 +276,8 @@ namespace	ft
 			void	swap(map & x)
 			{
 				size_type	tmp_size = x._size;
-				NodePtr	tmp_root = x.root;
-				NodePtr	tmp_TNULL = x.TNULL;
+				node_type	tmp_root = x.root;
+				node_type	tmp_TNULL = x.TNULL;
 
 				x._size = _size;
 				x.root = root;
@@ -314,11 +298,11 @@ namespace	ft
 
 			/*	Operations	*/
 
-			iterator	find(const key_type & k) { return (iterator(searchTree(root, k), maximum(root), TNULL));}
+			iterator	find(const key_type & k) { return (iterator(search_tree(root, k), maximum(root), TNULL));}
 			const_iterator	find(const key_type & k) const
-				{ return (const_iterator(reinterpret_cast<const_Node>(searchTree(root, k)), reinterpret_cast<const_Node>(maximum(root)), reinterpret_cast<const_Node>(TNULL))); }
+				{ return (const_iterator(reinterpret_cast<const_Node>(search_tree(root, k)), reinterpret_cast<const_Node>(maximum(root)), reinterpret_cast<const_Node>(TNULL))); }
 
-			size_type	count(const key_type & k) const { return ((searchTree(root, k) == TNULL) ? 0 : 1); }
+			size_type	count(const key_type & k) const { return ((search_tree(root, k) == TNULL) ? 0 : 1); }
 
 			iterator	lower_bound(const key_type & k)
 			{
@@ -368,14 +352,29 @@ namespace	ft
 			allocator_type	get_allocator() const { return (allocator_type()); }
 
 		private :
+			key_compare	compare;
+			allocator_type	alloc;
+			size_type	_size;
 
-			/*
-			* The right rotation at node x makes x goes down in the right direction and as a result, its left child goes up.
-			*/
+			typedef Node<const value_type>	* const_Node;
+			typedef Node<value_type>	Node;
+			typedef	Node	* node_type;
+			std::allocator<Node>	allocNode;
+			node_type	root;
+			node_type	TNULL;	
 
-			void	rightRotate(NodePtr x)
+			node_type	search_tree(node_type node, const key_type & key) const
 			{
-				NodePtr	y = x->left;
+				if (node == TNULL || key == node->data->first)
+					return (node);
+				if (compare(key, node->data->first))
+					return (search_tree(node->left, key));
+				return (search_tree(node->right, key));
+			}
+			
+			void	right_rotate(node_type x)
+			{
+				node_type	y = x->left;
 				x->left = y->right;
 				if (y->right != TNULL)
 					y->right->parent = x;
@@ -391,9 +390,9 @@ namespace	ft
 			}
 
 	
-			void	leftRotate(NodePtr x)
+			void	left_rotate(node_type x)
 			{
-				NodePtr	y = x->right;
+				node_type	y = x->right;
 				x->right = y->left;
 				if (y->left != TNULL)
 					y->left->parent = x;
@@ -408,7 +407,25 @@ namespace	ft
 				x->parent = y;
 			}
 
-			void	rbTransplant (NodePtr u, NodePtr v)
+			node_type	minimum(node_type node) const
+			{
+				if (!_size)
+					return (TNULL);
+				while (node->left != TNULL)
+					node = node->left;
+				return (node);
+			}
+
+			node_type	maximum(node_type node) const
+			{
+				if (!_size)
+					return (TNULL);
+				while (node->right != TNULL)
+					node = node->right;
+				return (node);
+			}
+			
+			void	rb_transplamt (node_type u, node_type v)
 			{
 				if (u->parent == nullptr)
 					root = v;
@@ -419,27 +436,9 @@ namespace	ft
 				v->parent = u->parent;
 			}
 
-			NodePtr	minimum(NodePtr node) const
+			void	insert_fix(node_type k)
 			{
-				if (!_size)
-					return (TNULL);
-				while (node->left != TNULL)
-					node = node->left;
-				return (node);
-			}
-
-			NodePtr	maximum(NodePtr node) const
-			{
-				if (!_size)
-					return (TNULL);
-				while (node->right != TNULL)
-					node = node->right;
-				return (node);
-			}
-
-			void	insertFix(NodePtr k)
-			{
-				NodePtr	u;
+				node_type	u;
 				while (k->parent->color == 1)
 				{
 					if (k->parent == k->parent->parent->right)
@@ -457,11 +456,11 @@ namespace	ft
 							if (k == k->parent->left)
 							{
 								k = k->parent;
-								rightRotate(k);
+								right_rotate(k);
 							}
 							k->parent->color = 0;
 							k->parent->parent->color = 1;
-							leftRotate(k->parent->parent);
+							left_rotate(k->parent->parent);
 						}
 					}
 					else
@@ -479,11 +478,11 @@ namespace	ft
 							if (k == k->parent->right)
 							{
 								k = k->parent;
-								leftRotate(k);
+								left_rotate(k);
 							}
 							k->parent->color = 0;
 							k->parent->parent->color = 1;
-							rightRotate(k->parent->parent);
+							right_rotate(k->parent->parent);
 						}
 					}
 					if (k == root)
@@ -492,9 +491,9 @@ namespace	ft
 				root->color = 0;
 			}
 
-			void deleteFix(NodePtr x)
+			void delete_fix(node_type x)
 			{
-				NodePtr	s;
+				node_type	s;
 				while (x != root && x->color == 0)
 				{
 					if (x == x->parent->left)
@@ -504,7 +503,7 @@ namespace	ft
 						{
 							s->color = 0;
 							x->parent->color = 1;
-							leftRotate(x->parent);
+							left_rotate(x->parent);
 							s = x->parent->right;
 						}
 						if (s->left->color == 0 && s->right->color == 0)
@@ -518,13 +517,13 @@ namespace	ft
 							{
 								s->left->color = 0;
 								s->color = 1;
-								rightRotate(s);
+								right_rotate(s);
 								s = x->parent->right;
 							}
 							s->color = x->parent->color;
 							x->parent->color = 0;
 							s->right->color = 0;
-							leftRotate(x->parent);
+							left_rotate(x->parent);
 							x = root;
 						}
 					}
@@ -536,7 +535,7 @@ namespace	ft
 						{
 							s->color = 0;
 							x->parent->color = 1;
-							rightRotate(x->parent);
+							right_rotate(x->parent);
 							s = x->parent->left;
 						}
 						if (s->right->color == 0 && s->left->color == 0)
@@ -550,28 +549,19 @@ namespace	ft
 							{
 								s->right->color = 0;
 								s->color = 1;
-								leftRotate(s);
+								left_rotate(s);
 								s = x->parent->left;
 							}
 							s->color = x->parent->color;
 							x->parent->color = 0;
 							s->left->color = 0;
-							rightRotate(x->parent);
+							right_rotate(x->parent);
 							x = root;
 
 						}
 					}
 				}
 				x->color = 0;
-			}
-
-			NodePtr	searchTree(NodePtr node, const key_type & key) const
-			{
-				if (node == TNULL || key == node->data->first)
-					return (node);
-				if (compare(key, node->data->first))
-					return (searchTree(node->left, key));
-				return (searchTree(node->right, key));
 			}
 	};
 

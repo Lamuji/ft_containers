@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: misaev <misaev@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 13:09:20 by misaev            #+#    #+#             */
-/*   Updated: 2022/11/30 23:12:19 by misaev           ###   ########.fr       */
+/*   Updated: 2022/12/01 08:16:59 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ namespace ft
         {
             *this = p;
         }
-        pair const & operator=( const pair& other )
-        {
-            if (this != &other)
-            {
-                this->first = other.first;
-                this->second = other.second;
-            }
-            return *this;
-        }
+        
+        // pair & operator=( const pair& other )
+        // {
+        //     if (this != &other)
+        //     {
+        //         this->first = other.first;
+        //         this->second = other.second;
+        //     }
+        //     return *this;
+        // }
+        
         // Operator de conversion
         operator pair<const T1, T2>() const 
         { 
